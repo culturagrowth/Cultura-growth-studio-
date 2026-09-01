@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12120F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Studio">
+<title>Cultura Growth · Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Serif&family=DM+Serif+Display&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* casca da agência */
+  --ag-ink:#12120F; --ag-bone:#F5F2EA; --ag-amber:#B8873B; --ag-mute:#8A877C;
+  /* tema do projeto (trocado em runtime) */
+  --dark:#12120F; --light:#F5F2EA; --accent:#B8873B; --soft:#E4E0D6; --deep:#3F3E35;
+  --ink:#1a1a15; --line:rgba(18,18,15,.12);
+  --disp:'Fraunces',serif;
+  --nav:76px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--light);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  font-weight:300;line-height:1.5;overscroll-behavior-y:none;
+}
+body.inproj{padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom))}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,textarea,select{font-family:inherit;color:var(--ink)}
+
+/* ============ HOME AGÊNCIA ============ */
+.home{background:var(--ag-ink);color:var(--ag-bone);min-height:100vh;padding-bottom:60px}
+.home-top{padding:calc(env(safe-area-inset-top) + 44px) 0 34px}
+.wordmark{display:flex;align-items:baseline;gap:9px}
+.wordmark b{
+  font-family:'Fraunces',serif;font-weight:400;font-size:25px;
+  letter-spacing:.01em;line-height:1;
+}
+.wordmark i{
+  font-style:normal;font-size:8.5px;letter-spacing:.36em;text-transform:uppercase;
+  color:var(--ag-amber);
+}
+.home-top p{
+  font-size:13px;color:var(--ag-mute);margin-top:11px;line-height:1.6;max-width:46ch;
+}
+.sect-h{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin:6px 0 15px;
+}
+.sect-h h2{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ag-mute);font-weight:500}
+.sect-h button{font-size:11px;color:var(--ag-amber);letter-spacing:.06em}
+
+.pcards{display:grid;gap:11px}
+.pcard{
+  display:block;width:100%;text-align:left;border-radius:5px;overflow:hidden;
+  background:rgba(245,242,234,.04);border:1px solid rgba(245,242,234,.1);
+  transition:.18s;position:relative;
+}
+.pcard:hover{background:rgba(245,242,234,.07);border-color:rgba(245,242,234,.2)}
+.pcard:active{transform:scale(.99)}
+.pcard-band{height:4px;display:flex}
+.pcard-band i{flex:1;display:block}
+.pcard-in{padding:17px 18px 18px;display:flex;align-items:flex-start;gap:14px}
+.pmark{
+  flex:0 0 42px;height:42px;border-radius:4px;display:grid;place-items:center;
+}
+.pmark svg{width:22px;height:22px}
+.pmain{flex:1;min-width:0}
+.pmain h3{font-family:'Fraunces',serif;font-size:20px;font-weight:400;line-height:1.2;color:var(--ag-bone)}
+.pmain small{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ag-mute);margin-top:5px}
+.pstats{display:flex;gap:16px;margin-top:13px}
+.pstats div b{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ag-bone);line-height:1;display:block}
+.pstats div span{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--ag-mute);display:block;margin-top:4px}
+.pstats div.alert b{color:var(--ag-amber)}
+.chev{flex:0 0 16px;color:var(--ag-mute);padding-top:12px}
+
+.newp{
+  width:100%;border:1px dashed rgba(245,242,234,.22);border-radius:5px;
+  padding:20px;color:var(--ag-mute);font-size:13px;letter-spacing:.05em;
+  display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s;
+}
+.newp:hover{border-color:var(--ag-amber);color:var(--ag-amber)}
+.home-foot{margin-top:38px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ag-mute);opacity:.55;text-align:center}
+
+/* ============ TOPO PROJETO ============ */
+header{
+  background:var(--dark);color:var(--light);
+  padding:calc(env(safe-area-inset-top) + 12px) 0 0;
+  position:sticky;top:0;z-index:40;
+}
+.hbar{display:flex;align-items:center;gap:12px;padding-bottom:13px}
+.back{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;opacity:.6;flex:0 0 30px}
+.back:hover{opacity:1;background:rgba(255,255,255,.1)}
+.htitle{flex:1;min-width:0}
+.htitle h1{font-family:var(--disp);font-weight:400;font-size:17px;letter-spacing:.05em;line-height:1.1}
+.htitle small{display:block;font-size:7.5px;letter-spacing:.32em;text-transform:uppercase;opacity:.5;margin-top:4px}
+.gear{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;opacity:.55;flex:0 0 30px}
+.gear:hover{opacity:1}
+.mnav{display:flex;align-items:center;justify-content:center;gap:18px;padding-bottom:14px}
+.mnav button{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;opacity:.55}
+.mnav button:hover{opacity:1;background:rgba(255,255,255,.1)}
+.mnav b{font-family:var(--disp);font-size:22px;font-weight:400;letter-spacing:.05em;min-width:172px;text-align:center}
+.mnav b i{font-style:normal;opacity:.45;font-size:17px}
+.track{display:flex;gap:2px;height:3px;background:rgba(255,255,255,.14)}
+.track span{display:block;transition:width .55s cubic-bezier(.4,0,.2,1)}
+
+/* ============ TABS ============ */
+nav.tabs{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:color-mix(in srgb, var(--light) 94%, transparent);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);display:flex;
+}
+nav.tabs button{flex:1;padding:12px 4px 13px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--deep);opacity:.5;transition:.16s}
+nav.tabs button[aria-selected="true"]{opacity:1;color:var(--dark)}
+nav.tabs svg{width:20px;height:20px}
+nav.tabs span{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:500}
+
+/* ============ CALENDÁRIO ============ */
+.cal{padding:20px 0 10px}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:7px}
+.dow span{text-align:center;font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--deep);opacity:.55;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cell{aspect-ratio:1;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:13px;color:var(--deep);transition:.16s}
+.cell.pad{opacity:0;pointer-events:none}
+.cell.has{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.cell.has:active{transform:scale(.94)}
+.cell.today{box-shadow:inset 0 0 0 1.5px var(--dark)}
+.cell b{font-weight:400;font-size:14px;line-height:1}
+.cell .dots{display:flex;gap:3px;height:5px;align-items:center}
+.cell .dots i{width:5px;height:5px;border-radius:99px;display:block}
+.cal-note{font-size:11px;color:var(--deep);opacity:.6;text-align:center;margin-top:16px}
+
+/* ============ LISTA ============ */
+.filters{display:flex;gap:6px;overflow-x:auto;padding:16px 0 2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);color:var(--deep);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:7px 13px;border-radius:99px;transition:.16s}
+.chip[aria-pressed="true"]{background:var(--dark);border-color:var(--dark);color:var(--light)}
+.wk{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--deep);opacity:.5;margin:22px 0 9px}
+.card{background:#fff;border:1px solid var(--line);border-radius:3px;display:flex;align-items:flex-start;gap:13px;width:100%;padding:14px 15px;margin-bottom:8px;text-align:left;transition:.16s}
+.card:active{transform:scale(.99)}
+.card.aprovado{border-left:3px solid var(--deep)}
+.card.ajustar{border-left:3px solid var(--accent)}
+.card.publicado{border-left:3px solid var(--dark)}
+.dt{flex:0 0 40px;text-align:center}
+.dt b{display:block;font-family:var(--disp);font-size:23px;font-weight:400;line-height:1;color:var(--dark)}
+.dt span{display:block;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--deep);opacity:.65;margin-top:3px}
+.cmain{flex:1;min-width:0}
+.cmain h3{font-family:var(--disp);font-size:18px;font-weight:500;line-height:1.22}
+.cmain .meta{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);opacity:.7;margin-top:5px}
+.tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.pill{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;padding:3.5px 8px;border-radius:99px;font-weight:500}
+.pill.aguardando{background:var(--soft);color:var(--deep)}
+.pill.aprovado{background:color-mix(in srgb,var(--deep) 16%,transparent);color:var(--deep)}
+.pill.ajustar{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
+.pill.publicado{background:var(--dark);color:var(--light)}
+.pill.soft{background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent)}
+.pill.softg{background:color-mix(in srgb,var(--deep) 13%,transparent);color:var(--deep)}
+
+/* ============ SHEET ============ */
+.scrim{position:fixed;inset:0;background:rgba(10,10,8,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--light);border-radius:14px 14px 0 0;max-height:93vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-width:820px;margin:0 auto}
+.sheet.on{transform:translateY(0)}
+.sheet-top{padding:10px 18px 13px;border-bottom:1px solid var(--line);position:relative;flex:0 0 auto}
+.handle{width:36px;height:4px;background:var(--soft);border-radius:99px;margin:0 auto 12px}
+.sheet-top h2{font-family:var(--disp);font-size:22px;font-weight:500;line-height:1.2;padding-right:38px}
+.sheet-top .meta{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--deep);opacity:.7;margin-top:5px}
+.close{position:absolute;top:20px;right:14px;width:30px;height:30px;border-radius:99px;display:grid;place-items:center;color:var(--deep)}
+.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 30px}
+
+.sec{padding-top:19px}
+.sec + .sec{margin-top:19px;border-top:1px solid var(--line)}
+h4.lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--deep);opacity:.75;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+h4.lbl svg{width:12px;height:12px}
+.sec p{font-size:14.5px;line-height:1.62}
+.hook{font-family:var(--disp);font-size:20px;line-height:1.28;color:var(--accent)}
+.box{background:#fff;border:1px solid var(--line);border-radius:2px;padding:12px 13px;font-size:14px;line-height:1.65;white-space:pre-wrap}
+.tg{font-size:12.5px;color:var(--deep);line-height:1.7;word-break:break-word}
+.empty{font-size:13.5px;color:var(--deep);opacity:.55;font-style:italic}
+.flag{display:inline-block;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);border:1px dashed color-mix(in srgb,var(--accent) 50%,transparent);padding:5px 10px;border-radius:2px;margin-top:10px}
+.btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.act{flex:1;min-width:130px;border:1px solid var(--dark);color:var(--dark);font-size:11.5px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding:12px 10px;border-radius:2px;transition:.16s}
+.act:hover{background:var(--dark);color:var(--light)}
+.act.warn{border-color:var(--accent);color:var(--accent)}
+.act.warn:hover{background:var(--accent);color:#fff}
+.act.ghost{border-color:var(--line);color:var(--deep);font-weight:400}
+.act.ghost:hover{background:var(--deep);color:var(--light);border-color:var(--deep)}
+.act:disabled{opacity:.4;cursor:default}
+.act.solid{background:var(--dark);color:var(--light)}
+.link-btn{font-size:11px;color:var(--deep);opacity:.7;text-decoration:underline}
+textarea,input.txt,select.txt{width:100%;border:1px solid var(--line);border-radius:2px;background:#fff;padding:11px 12px;font-size:14px;line-height:1.55;margin-top:9px}
+textarea{resize:vertical;min-height:74px}
+.note-log{margin-top:11px;background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:2px solid var(--accent);padding:11px 13px;font-size:14px;line-height:1.6}
+.note-log b{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:4px}
+.stamp{font-size:10.5px;color:var(--deep);opacity:.6;margin-top:10px}
+.player{position:relative;width:100%;background:#000;border-radius:3px;overflow:hidden;aspect-ratio:9/16;max-height:420px}
+.player iframe,.player video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;background:#000}
+.drop{border:1px dashed color-mix(in srgb,var(--dark) 26%,transparent);border-radius:3px;padding:15px 13px;text-align:center;background:#fff}
+.drop p{font-size:13px;color:var(--deep);line-height:1.5}
+.mbar{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:11px;color:var(--deep)}
+.mbar a{color:var(--accent);text-decoration:none;font-weight:500}
+.ai-out{background:#fff;border:1px solid var(--line);border-left:2px solid var(--deep);border-radius:2px;padding:14px;margin-top:11px}
+.ai-out h5{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--deep);font-weight:500;margin-bottom:6px}
+.ai-out h5:not(:first-child){margin-top:15px}
+.ai-out p,.ai-out li{font-size:14px;line-height:1.65}
+.ai-out ol,.ai-out ul{margin:0;padding-left:17px}
+.ai-out li{margin-bottom:6px}
+.ai-out.check{border-left-color:var(--accent)}
+.pending{font-size:13px;color:var(--deep);opacity:.8;margin-top:11px;display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;border-radius:99px;background:var(--accent);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+.err{font-size:13px;color:var(--accent);margin-top:9px;line-height:1.5}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:7px;margin-top:9px}
+.mgrid label span{display:block;font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--deep);opacity:.7;margin-bottom:4px}
+.mgrid input{width:100%;border:1px solid var(--line);border-radius:2px;background:#fff;padding:9px 6px;font-size:15px;text-align:center}
+
+/* ============ DASH ============ */
+.dash{padding:20px 0 8px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:3px;padding:15px 14px}
+.kpi b{display:block;font-family:var(--disp);font-size:28px;font-weight:400;color:var(--dark);line-height:1}
+.kpi span{display:block;font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--deep);opacity:.72;margin-top:6px}
+.kpi em{font-style:normal;font-size:10.5px;display:block;margin-top:5px}
+.kpi em.up{color:var(--deep)} .kpi em.down{color:var(--accent)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:3px;padding:17px 16px;margin-top:14px}
+.panel h3{font-family:var(--disp);font-size:19px;font-weight:500;color:var(--dark)}
+.panel p.lead{font-size:12.5px;color:var(--deep);line-height:1.55;margin-top:4px}
+.bars{margin-top:15px;display:flex;flex-direction:column;gap:11px}
+.bar-row{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
+.bar-row .nm{font-size:12.5px;line-height:1.35;min-width:0}
+.bar-row .nm small{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);opacity:.6;margin-top:2px}
+.bar-track{grid-column:1/-1;height:6px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar-track i{display:block;height:100%;background:var(--deep);border-radius:99px;transition:width .5s}
+.bar-track i.hi{background:var(--accent)}
+.bar-row .vl{font-family:var(--disp);font-size:17px;color:var(--dark)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
+.split div{background:var(--light);border-radius:2px;padding:11px 12px}
+.split b{display:block;font-family:var(--disp);font-size:21px;color:var(--dark);line-height:1}
+.split span{display:block;font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--deep);opacity:.72;margin-top:5px}
+
+/* ============ CONFIG ============ */
+.swatches{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sw{text-align:center}
+.sw input[type=color]{width:44px;height:44px;border:1px solid var(--line);border-radius:4px;background:none;padding:2px;cursor:pointer}
+.sw span{display:block;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);opacity:.7;margin-top:5px}
+
+.fab{position:fixed;right:18px;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 16px);width:52px;height:52px;border-radius:99px;background:var(--accent);color:#fff;display:grid;place-items:center;z-index:45;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.fab:active{transform:scale(.92)}
+.msg{padding:46px 20px;text-align:center;color:var(--deep);font-size:14px;opacity:.75;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media(min-width:620px){.kpis{grid-template-columns:repeat(4,1fr)}.pcards{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div class="scrim" id="scrim" onclick="fechar()"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="sheet-top" id="sheetTop"></div>
+  <div class="sheet-body" id="sheetBody"></div>
+</div>
+
+<script>
+/* ==================== CONSTANTES ==================== */
+const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOW=['D','S','T','Q','Q','S','S'];
+const DIAS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const FORMATOS=['Reel','Carrossel','Foto','Story'];
+const PILARES=['Destination','The House','Experience','Social Proof','Conversion','Design','Behind the Scenes','Educacional','Promocional'];
+const FONTES=[['Cormorant Garamond','Serifa clássica'],['Fraunces','Serifa moderna'],['Instrument Serif','Serifa editorial'],['DM Serif Display','Serifa display']];
+const STATES={aguardando:{label:'Aguardando'},aprovado:{label:'Aprovado'},ajustar:{label:'Ajustar'},publicado:{label:'Publicado'}};
+const CAMPOS=[['alcance','Alcance'],['seguidores','Novos seg.'],['cliques','Cliques link'],['salvos','Salvos'],['compart','Compart.'],['curtidas','Curtidas'],['coment','Coment.']];
+const KEY='cultura-growth-studio-v3';
+
+const VOZ_CASA=`You write for Casa Llamarada, a luxury 4-bedroom private villa in Sayulita, Riviera Nayarit, Mexico (casallamarada.com).
+Audience: affluent travelers on the US West Coast and in Canada.
+
+NON-NEGOTIABLE VOICE RULES:
+- Sell the FEELING and the experience of being there. Never describe the photo or the space literally.
+- Never use em-dashes anywhere.
+- If a call to action points to the website, write exactly "link in bio". Never "via the link".
+- Warm, understated, confident. Quiet luxury, never salesy or exclamation-heavy.
+- Polished professional English. Captions run 2 to 4 short sentences. No emoji in the body.`;
+
+const SEED_CASA=[
+ {date:'2026-08-04',fmt:'Carrossel',pilar:'Destination',concept:'Direct flights from Canada',hora:'19:00 PT',hook:'Closer than you think, Canada',
+  material:'Carrossel de design: 5 cidades (Vancouver, Calgary, Edmonton, Toronto, Montreal) + logos das companhias. Canva, sem footage.',
+  caption:'Vancouver, Calgary, Edmonton, Toronto and Montreal all fly direct to Puerto Vallarta, just minutes from Casa Llamarada. Air Canada, WestJet and Air Transat make it an easy, one-flight trip. Your next escape is closer than you think.',
+  cta:'Save this for your next trip',tags:'#Sayulita #PuertoVallarta #Canada #DirectFlights #TravelTips #LuxuryVilla',flag:'Teste Canadá · Vancouver'},
+ {date:'2026-08-06',fmt:'Reel',pilar:'Destination',concept:'48 hours in Sayulita',hora:'18:00 PT',material:'Footage de destino + 2 clipes da villa.'},
+ {date:'2026-08-09',fmt:'Carrossel',pilar:'Conversion',concept:'Made for the whole group',hora:'12:00 PT',material:'Áreas comuns, mesa de jantar, múltiplos quartos.',flag:'Domingo · aprovar até sexta'},
+ {date:'2026-08-11',fmt:'Reel',pilar:'The House',concept:'The house after dark',hora:'18:00 PT',material:'Footage noturno da villa. Pode exigir nova captação.',flag:'Teste Canadá · Toronto'},
+ {date:'2026-08-13',fmt:'Reel',pilar:'The House',concept:'Which room would you claim?',hora:'18:00 PT',material:'Walkthrough das suítes, footage existente.'},
+ {date:'2026-08-16',fmt:'Carrossel',pilar:'Destination',concept:'Before you land in Sayulita',hora:'12:00 PT',material:'Carrossel minimalista, conduzido por texto e design.',flag:'Domingo · aprovar até sexta'},
+ {date:'2026-08-18',fmt:'Reel',pilar:'Social Proof',concept:'The one thing every guest says',hora:'18:00 PT',material:'B-roll da villa + tema de review real de hóspede.',flag:'Teste Canadá · Vancouver'},
+ {date:'2026-08-20',fmt:'Reel',pilar:'Experience',concept:'Dinner starts in this kitchen',hora:'18:00 PT',material:'Footage da cozinha, vídeo preferencial.'},
+ {date:'2026-08-23',fmt:'Carrossel',pilar:'Conversion',concept:'Still open for September',hora:'12:00 PT',material:'Foto hero + gráfico de disponibilidade.',flag:'Domingo · aprovar até sexta'},
+ {date:'2026-08-25',fmt:'Reel',pilar:'Design',concept:'The bathroom nobody expects',hora:'18:00 PT',material:'Footage do banheiro: azulejo, chuveiro, piso.',flag:'Teste Canadá · Toronto'},
+ {date:'2026-08-27',fmt:'Reel',pilar:'Behind the Scenes',concept:'The people behind the house',hora:'18:00 PT',material:'Footage do time. Requer consentimento.'},
+ {date:'2026-08-30',fmt:'Carrossel',pilar:'Destination',concept:'Why locals love September',hora:'12:00 PT',material:'Vegetação, praia vazia, uma imagem da villa.',flag:'Domingo · aprovar até sexta'}
+];
+
+const SEED_CASA_SET=[
+ {date:'2026-09-01',fmt:'Reel',pilar:'Experience',concept:'Morning to midnight',hora:'19:00 PT',hook:'A day at Casa Llamarada',
+  material:'FORMATO CAMPEÃO (vídeo sobre vídeo + horário). A casa da primeira luz até a lareira acesa: 6AM → 9AM → 12PM → 4PM → 6PM → 10PM. Picture-in-picture com horário em cada corte. Usa material existente; onde faltar um horário, IA dá vida a uma foto.',
+  caption:'From the first light to the last. A day at Casa Llamarada moves slowly, and somehow the hours still get away from you. Morning coffee, an afternoon by the pool, and a fire that keeps the night going.',
+  cta:'Save this for your next escape',tags:'#Sayulita #CasaLlamarada #LuxuryVilla #SlowLiving #SayulitaMexico #RivieraNayarit'},
+ {date:'2026-09-03',fmt:'Reel',pilar:'The House',concept:'The walk to the pool',hora:'19:00 PT',
+  material:'Micro-experiência da piscina COM cortes no ritmo da música (não contínuo). Já temos muito material de piscina — variar os ângulos. Confiança para reservar.',
+  caption:'Every day ends up here. The water, the loungers, and nothing on the schedule. This is the part of the trip you will keep coming back to.',
+  cta:'Book your stay in Sayulita — link in bio',tags:'#Sayulita #PoolVibes #LuxuryVilla #SayulitaMexico #RivieraNayarit #SlowLiving'},
+ {date:'2026-09-06',fmt:'Carrossel',pilar:'Destination',concept:'Why locals love September',hora:'13:00 PT',
+  material:'RESGATE DE AGOSTO. Vegetação, praia vazia, uma imagem da villa. Vende a baixa temporada.',
+  caption:'Fewer people, greener jungle, and an ocean that stays warm long after summer ends. Ask anyone who lives here which month they would choose, and they will all say the same one.',
+  cta:'Plan your September escape — link in bio',tags:'#Sayulita #GreenSeason #RivieraNayarit #MexicoTravel #ShoulderSeason #TravelTips',flag:'Domingo · resgate de agosto'},
+ {date:'2026-09-08',fmt:'Reel',pilar:'Experience',concept:'Wake up here',hora:'19:00 PT',hook:'POV: your morning in Sayulita',
+  material:'O QUARTO/SUÍTE (pouco explorado). POV da manhã: a cama, a luz suave, a vista, o closet. Pode nascer de uma foto animada por IA.',
+  caption:'Soft light, ocean air, and mornings that ask nothing of you. Waking up at Casa Llamarada is the part guests talk about long after they leave.',
+  cta:'Tag who you would bring',tags:'#Sayulita #SlowMornings #LuxuryVilla #SayulitaMexico #RivieraNayarit #MorningView'},
+ {date:'2026-09-10',fmt:'Reel',pilar:'Experience',concept:'Dinner starts here',hora:'19:00 PT',
+  material:'Cozinha/jantar. Ilha de mármore, o preparo, a mesa. Usa fotos de cozinha; IA dá movimento.',
+  caption:'Marble island, walnut everywhere, and doors that open straight to the pool. Cook with what you found at the market, then eat where the jungle starts.',
+  cta:'Save this for your first night here',tags:'#Sayulita #VillaKitchen #LuxuryVilla #FoodieTravel #SayulitaMexico #RivieraNayarit'},
+ {date:'2026-09-13',fmt:'Carrossel',pilar:'Destination',concept:'Direct flights from Canada',hora:'13:00 PT',hook:'Closer than you think, Canada',
+  material:'RESGATE DE AGOSTO. Carrossel de design: cidades canadenses + companhias. VERIFICAR rotas no Google Flights na semana. Verificado: Vancouver (Air Canada+WestJet), Calgary (WestJet), Toronto (mais forte), Montreal (Air Transat), Edmonton (sazonal).',
+  caption:'Vancouver, Calgary, Toronto, Montreal and Edmonton all connect nonstop to Puerto Vallarta, just 40 minutes from Casa Llamarada. Air Canada, WestJet and Air Transat make it a one-flight trip. Your next escape is easier to reach than you think.',
+  cta:'Save this for your next trip',tags:'#Sayulita #PuertoVallarta #Canada #DirectFlights #TravelFromCanada #LuxuryVilla',flag:'Domingo · resgate de agosto'},
+ {date:'2026-09-15',fmt:'Reel',pilar:'Design',concept:'The bathroom nobody expects',hora:'19:00 PT',hook:'Wait for the tile',
+  material:'O BANHEIRO (pouco explorado). Azulejo verde geométrico, box, piso de madeira. Revelação atrasada.',
+  caption:'Hand-painted green geometry, warm walnut, and a walk-in shower with a teak floor. The room guests photograph most is not the one you would guess.',
+  cta:'Save this for your design board',tags:'#InteriorDesign #Sayulita #DesignDetails #LuxuryVilla #TileDesign #BoutiqueStay'},
+ {date:'2026-09-17',fmt:'Reel',pilar:'Experience',concept:'Golden hour never misses',hora:'19:00 PT',hook:'The best hour of the day',
+  material:'Fim de tarde. Material de golden hour + LUT Soft Golden.',
+  caption:'Every evening the sky puts on a show, and from Casa Llamarada you have got a front-row seat. The pool turns gold, the day slows down, and for a moment nothing else matters.',
+  cta:'Tag a sunset lover',tags:'#Sayulita #GoldenHour #SunsetLovers #LuxuryVilla #SayulitaMexico #RivieraNayarit'},
+ {date:'2026-09-20',fmt:'Carrossel',pilar:'Destination',concept:'Before you land in Sayulita',hora:'13:00 PT',hook:'Read this before you land',
+  material:'RESGATE DE AGOSTO. Carrossel minimalista de texto/design (Canva). Dicas práticas de chegada.',
+  caption:'Getting here from Puerto Vallarta, cash versus card, what to pack for green season, and the one thing every guest forgets. Practical notes from people who live it.',
+  cta:'Save this before your trip',tags:'#Sayulita #TravelTips #MexicoTravel #PuertoVallarta #TravelGuide #RivieraNayarit',flag:'Domingo · resgate de agosto'},
+ {date:'2026-09-22',fmt:'Carrossel',pilar:'Conversion',concept:'What your stay includes',hora:'13:00 PT',
+  material:'Foco em cliques/reserva: o quarto, a piscina, o chef, o espaço. Vende o valor real da estadia.',
+  caption:'A hotel gives you a room. Casa Llamarada gives you the whole place: four bedrooms, a chef ready kitchen, a private pool, and every quiet corner in between. This is what your stay actually includes.',
+  cta:'Book the whole villa — link in bio',tags:'#Sayulita #LuxuryVilla #PrivateVilla #VacationRental #SayulitaMexico #RivieraNayarit'},
+ {date:'2026-09-24',fmt:'Reel',pilar:'Experience',concept:'An evening you wont want to end',hora:'19:00 PT',
+  material:'Fim de tarde → noite. Vibe romântica/relaxante. Golden hour entrando na lareira.',
+  caption:'The light goes gold, the pool glows, and the evening slows all the way down. Some nights you do not want to end, and this is one of them.',
+  cta:'Book your stay in Sayulita — link in bio',tags:'#Sayulita #CasaLlamarada #GoldenHour #LuxuryVilla #SayulitaMexico #RivieraNayarit'},
+ {date:'2026-09-29',fmt:'Reel',pilar:'Destination',concept:'One last look at September',hora:'19:00 PT',
+  material:'Fecha o mês: retrospectiva da vibe de setembro, chamada para outubro.',
+  caption:'Warm water, quiet beaches, and a jungle at its greenest. September in Sayulita was everything the locals promised. October is looking just as good.',
+  cta:'Plan your escape — link in bio',tags:'#Sayulita #GreenSeason #RivieraNayarit #MexicoTravel #ShoulderSeason #LuxuryVilla'}
+];
+
+
+/* ==================== ESTADO ==================== */
+let DB={projetos:{}};
+let projAtual=null, mesAtual='2026-09', tab='cal', filtro='todos', aberto=null, editando=false, config=false;
+let analiseLoad=false, analiseErr='';
+
+const uid=p=>(p||'x')+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const chave=(a,m)=>a+'-'+String(m+1).padStart(2,'0');
+const P=()=>DB.projetos[projAtual];
+const posts=()=>(P()?.meses?.[mesAtual]?.posts||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+const acha=id=>(P()?.meses?.[mesAtual]?.posts||[]).find(p=>p.id===id);
+const num=n=>Number(n||0).toLocaleString('pt-BR');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const agora=()=>new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+
+async function carregar(){
+  try{ const r=await window.storage.get(KEY,true); if(r&&r.value) DB=JSON.parse(r.value); }catch(e){ DB={projetos:{}}; }
+  if(!DB.projetos) DB.projetos={};
+  if(!Object.keys(DB.projetos).length){
+    DB.projetos['casa-llamarada']={
+      nome:'Casa Llamarada', tagline:'Sayulita · MX',
+      tema:{dark:'#2B3210',light:'#FBF8EF',accent:'#DE6E27',soft:'#E5E2D9',deep:'#505631',disp:'Cormorant Garamond'},
+      voz:VOZ_CASA,
+      meses:{
+        '2026-08':{posts:SEED_CASA.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))},
+        '2026-09':{posts:SEED_CASA_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))}
+      }
+    };
+    await salvar();
+  } else {
+    /* migração: injeta setembro em projeto Casa Llamarada já existente, sem apagar nada */
+    const cl=DB.projetos['casa-llamarada'];
+    if(cl && cl.meses && !cl.meses['2026-09']){
+      cl.meses['2026-09']={posts:SEED_CASA_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))};
+      await salvar();
+    }
+  }
+  render();
+}
+let deb=null;
+async function salvar(){
+  clearTimeout(deb);
+  deb=setTimeout(async()=>{ try{ await window.storage.set(KEY,JSON.stringify(DB),true); }catch(e){ console.error(e); } },260);
+}
+
+/* ==================== TEMA ==================== */
+const TEMA_AG={dark:'#12120F',light:'#F5F2EA',accent:'#B8873B',soft:'#E4E0D6',deep:'#3F3E35',disp:'Fraunces'};
+function aplicaTema(t){
+  const r=document.documentElement.style;
+  r.setProperty('--dark',t.dark); r.setProperty('--light',t.light);
+  r.setProperty('--accent',t.accent); r.setProperty('--soft',t.soft);
+  r.setProperty('--deep',t.deep); r.setProperty('--disp',`'${t.disp}',serif`);
+  r.setProperty('--line',hexA(t.dark,.13));
+  r.setProperty('--ink',mistura(t.dark));
+  document.querySelector('meta[name=theme-color]').setAttribute('content',t.dark);
+}
+function hexA(h,a){ const n=parseInt(h.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+function mistura(h){ const n=parseInt(h.slice(1),16); const f=v=>Math.round(v*.85); return `rgb(${f(n>>16&255)},${f(n>>8&255)},${f(n&255)})`; }
+
+/* ==================== ROTEAMENTO ==================== */
+function abrirProjeto(id){
+  projAtual=id; tab='cal'; filtro='todos'; config=false;
+  const ms=Object.keys(P().meses||{}).sort();
+  mesAtual = ms.includes('2026-08') ? '2026-08' : (ms[0] || chave(new Date().getFullYear(), new Date().getMonth()));
+  if(!P().meses[mesAtual]) P().meses[mesAtual]={posts:[]};
+  aplicaTema(P().tema); document.body.classList.add('inproj');
+  window.scrollTo(0,0); render();
+}
+function voltarHome(){ projAtual=null; aplicaTema(TEMA_AG); document.body.classList.remove('inproj'); window.scrollTo(0,0); render(); }
+
+function render(){ document.getElementById('app').innerHTML = projAtual ? viewProjeto() : viewHome(); }
+
+/* ==================== HOME ==================== */
+function statsProj(id){
+  const p=DB.projetos[id]; let total=0,pend=0;
+  Object.values(p.meses||{}).forEach(m=>(m.posts||[]).forEach(x=>{
+    total++; if((x.status||'aguardando')==='aguardando'||x.status==='ajustar') pend++;
+  }));
+  return {total,pend,meses:Object.keys(p.meses||{}).length};
+}
+function viewHome(){
+  const ids=Object.keys(DB.projetos);
+  return `<div class="home"><div class="wrap">
+    <div class="home-top">
+      <div class="wordmark"><b>Cultura Growth</b><i>Studio</i></div>
+      <p>Calendário editorial, aprovação e métricas dos projetos sob gestão. Selecione um projeto para entrar.</p>
+    </div>
+    <div class="sect-h"><h2>Projetos · ${ids.length}</h2></div>
+    <div class="pcards">
+      ${ids.map(id=>{
+        const p=DB.projetos[id], s=statsProj(id), t=p.tema;
+        return `<button class="pcard" onclick="abrirProjeto('${id}')">
+          <span class="pcard-band">${[t.dark,t.deep,t.accent,t.soft,t.light].map(c=>`<i style="background:${c}"></i>`).join('')}</span>
+          <span class="pcard-in">
+            <span class="pmark" style="background:${t.dark}">
+              <svg viewBox="0 0 64 64" aria-hidden="true"><g fill="${t.light}">
+              <path d="M32 33 C32 33 30 6 32 5 C34 6 32 33 32 33 Z"/><path d="M32 33 C32 33 20 10 22 8 C25 8 32 33 32 33 Z"/>
+              <path d="M32 33 C32 33 44 10 42 8 C39 8 32 33 32 33 Z"/><path d="M32 33 C32 33 11 18 12 15 C15 14 32 33 32 33 Z"/>
+              <path d="M32 33 C32 33 53 18 52 15 C49 14 32 33 32 33 Z"/><path d="M32 34 C32 34 8 31 8 28 C11 26 32 34 32 34 Z"/>
+              <path d="M32 34 C32 34 56 31 56 28 C53 26 32 34 32 34 Z"/></g></svg>
+            </span>
+            <span class="pmain">
+              <h3 style="font-family:'${t.disp}',serif">${esc(p.nome)}</h3>
+              <small>${esc(p.tagline||'')}</small>
+              <span class="pstats">
+                <span><b>${s.total}</b><span>Posts</span></span>
+                <span class="${s.pend?'alert':''}"><b>${s.pend}</b><span>Pendentes</span></span>
+                <span><b>${s.meses}</b><span>Meses</span></span>
+              </span>
+            </span>
+            <span class="chev"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></span>
+          </span></button>`;
+      }).join('')}
+      <button class="newp" onclick="novoProjeto()">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
+        Adicionar projeto</button>
+    </div>
+    <p class="home-foot">Cultura Growth · Gestão de conteúdo</p>
+  </div></div>`;
+}
+
+function novoProjeto(){
+  const id=uid('proj');
+  DB.projetos[id]={nome:'Novo projeto',tagline:'',tema:{...TEMA_AG},voz:'',meses:{}};
+  salvar(); abrirProjeto(id); config=true; render();
+}
+
+/* ==================== PROJETO ==================== */
+function viewProjeto(){
+  const p=P(); if(!p) return voltarHome(),'';
+  const [a,m]=mesAtual.split('-').map(Number);
+  const ps=posts();
+  const cont={aguardando:0,aprovado:0,ajustar:0,publicado:0};
+  ps.forEach(x=>cont[x.status||'aguardando']++);
+  const cores={aguardando:p.tema.soft,aprovado:p.tema.deep,ajustar:p.tema.accent,publicado:p.tema.dark};
+
+  return `
+  <header><div class="wrap">
+    <div class="hbar">
+      <button class="back" onclick="voltarHome()" aria-label="Voltar aos projetos"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="htitle"><h1>${esc(p.nome)}</h1><small>${esc(p.tagline||'Cultura Growth')}</small></div>
+      <button class="gear" onclick="config=!config;render()" aria-label="Configurar projeto"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg></button>
+    </div>
+    ${config?'':`<div class="mnav">
+      <button onclick="mudarMes(-1)" aria-label="Mês anterior"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <b>${MESES[m-1]} <i>${a}</i></b>
+      <button onclick="mudarMes(1)" aria-label="Próximo mês"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>`}
+  </div>
+  <div class="track">${ps.length&&!config?Object.keys(STATES).filter(k=>cont[k]).map(k=>`<span style="width:${cont[k]/ps.length*100}%;background:${cores[k]}"></span>`).join(''):''}</div>
+  </header>
+
+  <main class="wrap">${config?viewConfig():(tab==='cal'?viewCal():tab==='list'?viewList(cont):viewMx())}</main>
+
+  ${config?'':`<button class="fab" onclick="novoPost()" aria-label="Novo post" style="${tab==='mx'?'display:none':''}">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></button>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="${tab==='cal'}" onclick="setTab('cal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Calendário</span></button>
+    <button role="tab" aria-selected="${tab==='list'}" onclick="setTab('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span>Posts</span></button>
+    <button role="tab" aria-selected="${tab==='mx'}" onclick="setTab('mx')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Métricas</span></button>
+  </nav>`}`;
+}
+function setTab(t){ tab=t; render(); }
+function mudarMes(d){
+  const [a,m]=mesAtual.split('-').map(Number);
+  const nd=new Date(a,m-1+d,1);
+  mesAtual=chave(nd.getFullYear(),nd.getMonth());
+  if(!P().meses[mesAtual]) P().meses[mesAtual]={posts:[]};
+  render();
+}
+
+/* ---------- config do projeto ---------- */
+function viewConfig(){
+  const p=P(), t=p.tema;
+  return `<div class="dash">
+    <div class="panel">
+      <h3>Identidade do projeto</h3>
+      <p class="lead">O app inteiro assume estas cores e fontes quando você entra no projeto.</p>
+      <label><span class="tg">Nome</span><input class="txt" id="c-nome" value="${esc(p.nome)}"></label>
+      <label><span class="tg">Tagline</span><input class="txt" id="c-tag" value="${esc(p.tagline||'')}" placeholder="Sayulita · MX"></label>
+      <label><span class="tg" style="display:block;margin-top:12px">Fonte de título</span>
+        <select class="txt" id="c-disp">${FONTES.map(([f,d])=>`<option value="${f}" ${f===t.disp?'selected':''}>${f} · ${d}</option>`).join('')}</select></label>
+      <h4 class="lbl" style="margin-top:16px">Paleta</h4>
+      <div class="swatches">
+        ${[['dark','Escura'],['light','Fundo'],['accent','Destaque'],['soft','Suave'],['deep','Média']].map(([k,l])=>
+          `<span class="sw"><input type="color" id="c-${k}" value="${t[k]}"><span>${l}</span></span>`).join('')}
+      </div>
+      <div class="btns"><button class="act solid" onclick="salvarConfig()">Aplicar</button></div>
+    </div>
+
+    <div class="panel">
+      <h3>Voz da marca</h3>
+      <p class="lead">Estas instruções guiam toda a produção de legendas e roteiros por IA neste projeto.</p>
+      <textarea id="c-voz" style="min-height:200px" placeholder="Ex: You write for [marca], a [descrição]. Audience: [público]. Voice rules: ...">${esc(p.voz||'')}</textarea>
+      <div class="btns"><button class="act solid" onclick="salvarVoz()">Salvar voz</button></div>
+    </div>
+
+    <div class="panel">
+      <h3>Projeto</h3>
+      <p class="lead">${statsProj(projAtual).total} posts em ${statsProj(projAtual).meses} ${statsProj(projAtual).meses===1?'mês':'meses'}.</p>
+      <div class="btns"><button class="act ghost" onclick="config=false;render()">Voltar ao calendário</button></div>
+      <div class="btns"><button class="link-btn" onclick="apagarProjeto()">Excluir projeto</button></div>
+    </div>
+  </div>`;
+}
+function salvarConfig(){
+  const p=P(), g=x=>document.getElementById('c-'+x).value;
+  p.nome=g('nome').trim()||'Sem nome'; p.tagline=g('tag').trim();
+  p.tema={dark:g('dark'),light:g('light'),accent:g('accent'),soft:g('soft'),deep:g('deep'),disp:g('disp')};
+  aplicaTema(p.tema); salvar(); render(); toast('Identidade aplicada.');
+}
+function salvarVoz(){ P().voz=document.getElementById('c-voz').value.trim(); salvar(); toast('Voz da marca salva.'); }
+function apagarProjeto(){
+  if(!confirm('Excluir este projeto e todo o conteúdo dele? Não pode ser desfeito.')) return;
+  delete DB.projetos[projAtual]; salvar(); voltarHome();
+}
+
+/* ---------- calendário ---------- */
+function viewCal(){
+  const [a,m]=mesAtual.split('-').map(Number);
+  const first=new Date(a,m-1,1).getDay(), dias=new Date(a,m,0).getDate();
+  const hoje=new Date().toISOString().slice(0,10), ps=posts(), t=P().tema;
+  const cores={aguardando:t.soft,aprovado:t.deep,ajustar:t.accent,publicado:t.dark};
+  let c='';
+  for(let i=0;i<first;i++) c+=`<div class="cell pad"></div>`;
+  for(let d=1;d<=dias;d++){
+    const iso=`${a}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dd=ps.filter(p=>p.date===iso), td=iso===hoje?' today':'';
+    if(!dd.length){ c+=`<div class="cell${td}"><b>${d}</b></div>`; continue; }
+    c+=`<button class="cell has${td}" onclick="abrir('${dd[0].id}')" aria-label="${d} ${esc(dd[0].concept)}">
+      <b>${d}</b><span class="dots">${dd.slice(0,3).map(p=>`<i style="background:${cores[p.status||'aguardando']}"></i>`).join('')}</span></button>`;
+  }
+  return `<div class="cal"><div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div>
+    <div class="grid">${c}</div>
+    <p class="cal-note">${ps.length?'Toque em um dia para abrir o post':'Nenhum post neste mês. Toque em + para criar.'}</p></div>`;
+}
+
+/* ---------- lista ---------- */
+function viewList(cont){
+  const ps=posts();
+  const opts=[['todos','Todos',ps.length],['aguardando','Aguardando',cont.aguardando],['ajustar','Ajustar',cont.ajustar],['aprovado','Aprovados',cont.aprovado],['publicado','Publicados',cont.publicado]];
+  let h=`<div class="filters">${opts.map(([v,l,n])=>`<button class="chip" aria-pressed="${filtro===v}" onclick="filtro='${v}';render()">${l} · ${n}</button>`).join('')}</div>`;
+  const vis=ps.filter(p=>filtro==='todos'||(p.status||'aguardando')===filtro);
+  if(!vis.length) return h+`<p class="msg">Nada aqui neste filtro.</p>`;
+  let wk=null;
+  vis.forEach(p=>{
+    const d=new Date(p.date+'T12:00:00');
+    const w=Math.ceil((d.getDate()+new Date(d.getFullYear(),d.getMonth(),1).getDay())/7);
+    if(filtro==='todos'&&w!==wk){ wk=w; h+=`<p class="wk">Semana ${w}</p>`; }
+    const st=p.status||'aguardando';
+    const temMx=p.mx&&Object.values(p.mx).some(v=>v!==''&&v!=null);
+    h+=`<button class="card ${st}" onclick="abrir('${p.id}')">
+      <span class="dt"><b>${d.getDate()}</b><span>${DIAS[d.getDay()]}</span></span>
+      <span class="cmain"><h3>${esc(p.concept)}</h3>
+        <span class="meta">${p.fmt} · ${p.pilar}${p.hora?' · '+p.hora:''}</span>
+        <span class="tags-row"><span class="pill ${st}">${STATES[st].label}</span>
+        ${p.midia?`<span class="pill soft">Vídeo</span>`:''}
+        ${(p.ai&&p.ai.legenda)||p.caption?`<span class="pill softg">Legenda</span>`:''}
+        ${temMx?`<span class="pill softg">Métricas</span>`:''}</span>
+      </span></button>`;
+  });
+  return h;
+}
+
+/* ==================== SHEET ==================== */
+function abrir(id){ aberto=id; editando=false; pintaSheet(); document.getElementById('scrim').classList.add('on'); document.getElementById('sheet').classList.add('on'); document.body.style.overflow='hidden'; }
+function fechar(){ aberto=null; editando=false; document.getElementById('scrim').classList.remove('on'); document.getElementById('sheet').classList.remove('on'); document.body.style.overflow=''; render(); }
+function pintaSheet(){
+  const p=acha(aberto); if(!p) return fechar();
+  const d=new Date(p.date+'T12:00:00');
+  document.getElementById('sheetTop').innerHTML=`<div class="handle"></div>
+    <button class="close" onclick="fechar()" aria-label="Fechar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <h2>${esc(p.concept)}</h2>
+    <p class="meta">${d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})} · ${p.fmt} · ${p.pilar}</p>`;
+  document.getElementById('sheetBody').innerHTML = editando?formHTML(p):detalheHTML(p);
+}
+function detalheHTML(p){
+  const st=p.status||'aguardando';
+  return `<div class="sec"><h4 class="lbl">Status</h4>
+    <div class="tags-row"><span class="pill ${st}">${STATES[st].label}</span></div>
+    ${p.flag?`<span class="flag">${esc(p.flag)}</span>`:''}
+    <div class="btns">${st==='aprovado'
+      ?`<button class="act solid" onclick="setStatus('${p.id}','publicado')">Marcar publicado</button><button class="act ghost" onclick="setStatus('${p.id}','aguardando')">Reabrir</button>`
+      :st==='publicado'?`<button class="act ghost" onclick="setStatus('${p.id}','aprovado')">Desfazer publicação</button>`
+      :`<button class="act" onclick="setStatus('${p.id}','aprovado')">Aprovar</button><button class="act warn" onclick="pedirAjuste('${p.id}')">Pedir ajuste</button>`}</div>
+    ${(st==='aguardando'||st==='ajustar')?`<textarea id="ta-${p.id}" placeholder="O que precisa mudar neste post?">${esc(p.nota||'')}</textarea>`:''}
+    ${p.nota?`<div class="note-log"><b>Ajuste pedido</b>${esc(p.nota)}</div>`:''}
+    ${p.quando?`<p class="stamp">Atualizado · ${p.quando}</p>`:''}</div>
+  ${p.hook?`<div class="sec"><h4 class="lbl">Hook</h4><p class="hook">${esc(p.hook)}</p></div>`:''}
+  <div class="sec"><h4 class="lbl">Material necessário</h4><p>${esc(p.material||'—')}</p></div>
+  <div class="sec"><h4 class="lbl">Legenda</h4>
+    ${p.caption?`<div class="box">${esc(p.caption)}</div>`:`<p class="empty">Ainda não produzida.</p>`}
+    ${p.cta?`<p style="margin-top:11px;font-size:13px;color:var(--deep)">CTA: ${esc(p.cta)}</p>`:''}
+    ${p.tags?`<p class="tg" style="margin-top:9px">${esc(p.tags)}</p>`:''}</div>
+  <div class="sec">${blocoAi(p)}</div>
+  <div class="sec">${blocoMidia(p)}</div>
+  <div class="sec"><h4 class="lbl">Métricas do post</h4>
+    <div class="mgrid">${CAMPOS.map(([k,l])=>`<label><span>${l}</span><input type="number" inputmode="numeric" min="0" value="${p.mx?.[k]??''}" placeholder="—" onchange="setMx('${p.id}','${k}',this.value)"></label>`).join('')}</div></div>
+  <div class="sec"><div class="btns">
+      <button class="act ghost" onclick="avisar('${p.id}')">Copiar aviso</button>
+      <button class="act ghost" onclick="editando=true;pintaSheet()">Editar post</button></div>
+    <div class="btns"><button class="link-btn" onclick="apagar('${p.id}')">Excluir este post</button></div></div>`;
+}
+function formHTML(p){
+  return `<div class="sec"><h4 class="lbl">Editar post</h4>
+    <label><span class="tg">Conceito</span><input class="txt" id="f-concept" value="${esc(p.concept)}"></label>
+    <label><span class="tg">Data</span><input class="txt" type="date" id="f-date" value="${p.date}"></label>
+    <label><span class="tg">Horário</span><input class="txt" id="f-hora" value="${esc(p.hora||'')}" placeholder="18:00 PT"></label>
+    <label><span class="tg">Formato</span><select class="txt" id="f-fmt">${FORMATOS.map(f=>`<option ${f===p.fmt?'selected':''}>${f}</option>`).join('')}</select></label>
+    <label><span class="tg">Pilar</span><select class="txt" id="f-pilar">${PILARES.map(f=>`<option ${f===p.pilar?'selected':''}>${f}</option>`).join('')}</select></label>
+    <label><span class="tg">Hook</span><input class="txt" id="f-hook" value="${esc(p.hook||'')}"></label>
+    <label><span class="tg">Material necessário</span><textarea id="f-material">${esc(p.material||'')}</textarea></label>
+    <label><span class="tg">Legenda</span><textarea id="f-caption">${esc(p.caption||'')}</textarea></label>
+    <label><span class="tg">CTA</span><input class="txt" id="f-cta" value="${esc(p.cta||'')}"></label>
+    <label><span class="tg">Hashtags</span><textarea id="f-tags">${esc(p.tags||'')}</textarea></label>
+    <label><span class="tg">Observação</span><input class="txt" id="f-flag" value="${esc(p.flag||'')}"></label>
+    <div class="btns" style="margin-top:16px"><button class="act solid" onclick="salvarForm('${p.id}')">Salvar</button>
+      <button class="act ghost" onclick="editando=false;pintaSheet()">Cancelar</button></div></div>`;
+}
+function salvarForm(id){
+  const p=acha(id); if(!p) return;
+  const g=x=>document.getElementById('f-'+x).value.trim();
+  const nd=g('date')||p.date;
+  Object.assign(p,{concept:g('concept')||'Sem título',hora:g('hora'),fmt:g('fmt'),pilar:g('pilar'),hook:g('hook'),material:g('material'),caption:g('caption'),cta:g('cta'),tags:g('tags'),flag:g('flag'),date:nd});
+  const mk=nd.slice(0,7);
+  if(mk!==mesAtual){
+    P().meses[mesAtual].posts=P().meses[mesAtual].posts.filter(x=>x.id!==id);
+    P().meses[mk]=P().meses[mk]||{posts:[]}; P().meses[mk].posts.push(p);
+    salvar(); fechar(); mesAtual=mk; render(); toast('Post movido para '+MESES[Number(mk.slice(5))-1]+'.'); return;
+  }
+  editando=false; salvar(); pintaSheet(); render();
+}
+function novoPost(){
+  const [a,m]=mesAtual.split('-').map(Number);
+  const p={id:uid('p'),date:`${a}-${String(m).padStart(2,'0')}-01`,fmt:'Reel',pilar:PILARES[0],concept:'Novo post',hora:'18:00',material:'',status:'aguardando',mx:{}};
+  P().meses[mesAtual]=P().meses[mesAtual]||{posts:[]}; P().meses[mesAtual].posts.push(p);
+  salvar(); abrir(p.id); editando=true; pintaSheet();
+}
+function apagar(id){
+  if(!confirm('Excluir este post?')) return;
+  P().meses[mesAtual].posts=P().meses[mesAtual].posts.filter(x=>x.id!==id);
+  salvar(); fechar();
+}
+function setStatus(id,st){ const p=acha(id); p.status=st; p.quando=agora(); if(st!=='ajustar')p.nota=''; salvar(); pintaSheet(); }
+function pedirAjuste(id){ const p=acha(id),ta=document.getElementById('ta-'+id),t=ta?ta.value.trim():''; if(!t){ta?.focus();return;} p.status='ajustar'; p.nota=t; p.quando=agora(); salvar(); pintaSheet(); }
+function setMx(id,k,v){ const p=acha(id); p.mx=p.mx||{}; p.mx[k]=v===''?'':Math.max(0,parseInt(v,10)||0); salvar(); }
+
+/* ==================== MÍDIA ==================== */
+function embed(u){ u=(u||'').trim(); let m;
+  if((m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))) return {t:'i',s:`https://drive.google.com/file/d/${m[1]}/preview`};
+  if((m=u.match(/drive\.google\.com\/open\?id=([\w-]+)/))) return {t:'i',s:`https://drive.google.com/file/d/${m[1]}/preview`};
+  if((m=u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]+)/))) return {t:'i',s:`https://www.youtube.com/embed/${m[1]}`};
+  if((m=u.match(/vimeo\.com\/(\d+)/))) return {t:'i',s:`https://player.vimeo.com/video/${m[1]}`};
+  if(/dropbox\.com\/.+\.(mp4|mov|m4v)/i.test(u)) return {t:'v',s:u.replace(/[?&]dl=0/,'')+(u.includes('?')?'&':'?')+'raw=1'};
+  if(/\.(mp4|webm|mov|m4v)(\?|$)/i.test(u)) return {t:'v',s:u};
+  return null; }
+function blocoMidia(p){
+  if(!p.midia) return `<h4 class="lbl">Vídeo para aprovação</h4>
+    <div class="drop"><p>Cole o link do Drive, YouTube, Vimeo ou Dropbox.<br>O vídeo toca aqui, sem download.</p>
+    <input class="txt" id="mid-${p.id}" type="url" placeholder="https://drive.google.com/file/d/...">
+    <div class="btns"><button class="act ghost" onclick="setMidia('${p.id}')">Anexar</button></div></div>`;
+  const e=embed(p.midia);
+  return `<h4 class="lbl">Vídeo para aprovação</h4>
+    ${e?`<div class="player">${e.t==='i'?`<iframe src="${e.s}" allow="autoplay; fullscreen" allowfullscreen title="Prévia"></iframe>`:`<video src="${e.s}" controls playsinline preload="metadata"></video>`}</div>`
+      :`<div class="drop"><p>Link anexado, sem prévia embutida para este serviço.</p></div>`}
+    <div class="mbar"><a href="${esc(p.midia)}" target="_blank" rel="noopener">Abrir em nova aba</a>
+    <button class="link-btn" onclick="tiraMidia('${p.id}')">Trocar vídeo</button></div>`;
+}
+function setMidia(id){ const p=acha(id),i=document.getElementById('mid-'+id),v=i.value.trim(); if(!v){i.focus();return;} p.midia=v; salvar(); pintaSheet(); }
+function tiraMidia(id){ const p=acha(id); p.midia=''; salvar(); pintaSheet(); }
+
+/* ==================== IA ==================== */
+async function claude(prompt,mx){
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:mx||1200,messages:[{role:"user",content:prompt}]})});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  const d=await r.json();
+  const t=d.content.filter(b=>b.type==="text").map(b=>b.text).join("\n");
+  return JSON.parse(t.replace(/```json|```/g,"").trim());
+}
+function voz(){ return P().voz || `You write Instagram content for ${P().nome}. Write in polished professional English, warm and confident, never salesy. Captions run 2 to 4 short sentences.`; }
+
+async function gerar(id){
+  const p=acha(id); p.aiLoad='g'; p.aiErr=''; pintaSheet();
+  try{
+    p.ai=await claude(`${voz()}
+
+Produce the full content package for this Instagram post.
+Format: ${p.fmt}
+Pillar: ${p.pilar}
+Concept: ${p.concept}
+${p.hook?'Existing hook: '+p.hook:''}
+Available material: ${p.material||'not specified'}
+
+Respond with ONLY a JSON object, no preamble, no markdown fences:
+{"hook":"on-screen opening text, max 6 words","roteiro":["shot 1 with duration and on-screen text","shot 2","shot 3","shot 4"],"legenda":"the caption","hashtags":"8 to 10 hashtags separated by spaces","cta":"short call to action"}`,1400);
+    p.aiQuando=agora(); p.rev=null;
+  }catch(e){ p.aiErr='Não consegui gerar agora. Tente de novo em alguns segundos.'; }
+  p.aiLoad=''; salvar(); pintaSheet();
+}
+async function revisar(id){
+  const p=acha(id), txt=(p.ai&&p.ai.legenda)||p.caption; if(!txt) return;
+  p.aiLoad='r'; p.aiErr=''; pintaSheet();
+  try{
+    p.rev=await claude(`${voz()}
+
+Review this caption against the voice rules above. Be strict and specific.
+CAPTION:
+"""${txt}"""
+
+Respond with ONLY a JSON object, no preamble, no markdown fences, notes in Brazilian Portuguese:
+{"veredito":"aprovado" or "ajustar","pontos":[{"regra":"which rule","situacao":"ok" or "falha","nota":"one short sentence"}],"sugestao":"corrected caption if ajustar, otherwise empty string"}`,1200);
+  }catch(e){ p.aiErr='Não consegui revisar agora. Tente de novo em alguns segundos.'; }
+  p.aiLoad=''; salvar(); pintaSheet();
+}
+function usarSug(id){ const p=acha(id); if(!p.rev?.sugestao) return; p.ai=p.ai||{}; p.ai.legenda=p.rev.sugestao; p.rev=null; salvar(); pintaSheet(); }
+function aplicar(id){ const p=acha(id); if(!p.ai) return; p.caption=p.ai.legenda||p.caption; p.hook=p.ai.hook||p.hook; p.tags=p.ai.hashtags||p.tags; p.cta=p.ai.cta||p.cta; salvar(); pintaSheet(); toast('Aplicado ao post.'); }
+const SPARK=`<svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg>`;
+function blocoAi(p){
+  let h=`<h4 class="lbl">${SPARK} Produção com IA</h4>`;
+  if(p.ai) h+=`<div class="ai-out">
+    <h5>Hook</h5><p class="hook" style="font-size:19px">${esc(p.ai.hook||'')}</p>
+    <h5>Roteiro</h5><ol>${(p.ai.roteiro||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+    <h5>Legenda</h5><div class="box">${esc(p.ai.legenda||'')}</div>
+    ${p.ai.cta?`<h5>CTA</h5><p>${esc(p.ai.cta)}</p>`:''}
+    ${p.ai.hashtags?`<h5>Hashtags</h5><p class="tg">${esc(p.ai.hashtags)}</p>`:''}</div>`;
+  if(p.rev){ const ok=p.rev.veredito==='aprovado';
+    h+=`<div class="ai-out check"><h5>Revisor de marca · ${ok?'Aprovado':'Precisa de ajuste'}</h5>
+      <ul style="list-style:none;padding:0">${(p.rev.pontos||[]).map(pt=>`<li><b>${pt.situacao==='ok'?'✓':'!'}</b> <b style="font-weight:500">${esc(pt.regra)}:</b> ${esc(pt.nota)}</li>`).join('')}</ul>
+      ${p.rev.sugestao?`<h5>Versão corrigida</h5><div class="box">${esc(p.rev.sugestao)}</div><div class="btns"><button class="act ghost" onclick="usarSug('${p.id}')">Usar esta versão</button></div>`:''}</div>`; }
+  if(p.aiLoad) h+=`<p class="pending"><span class="dot"></span>${p.aiLoad==='g'?'Escrevendo roteiro e legenda…':'Conferindo contra as regras da marca…'}</p>`;
+  if(p.aiErr) h+=`<p class="err">${esc(p.aiErr)}</p>`;
+  h+=`<div class="btns"><button class="act ghost" onclick="gerar('${p.id}')" ${p.aiLoad?'disabled':''}>${p.ai?'Gerar outra':'Gerar roteiro e legenda'}</button>
+    ${(p.ai||p.caption)?`<button class="act ghost" onclick="revisar('${p.id}')" ${p.aiLoad?'disabled':''}>Revisar marca</button>`:''}</div>
+    ${p.ai?`<div class="btns"><button class="act ghost" onclick="aplicar('${p.id}')">Aplicar ao post</button></div>`:''}
+    ${p.aiQuando?`<p class="stamp">Gerado por IA · ${p.aiQuando}</p>`:''}`;
+  return h;
+}
+
+/* ==================== AVISO ==================== */
+async function avisar(id){
+  const p=acha(id);
+  const d=new Date(p.date+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});
+  const t=`${P().nome} · ${d}\n${p.concept} · ${p.fmt}\n${p.midia?'Vídeo anexado e pronto para revisão.':'Conteúdo atualizado no painel.'}\nAprovação: ${location.href}`;
+  try{ await navigator.clipboard.writeText(t); toast('Aviso copiado.'); }catch(e){ prompt('Copie o aviso:',t); }
+}
+function toast(m){
+  const el=document.createElement('div'); el.textContent=m;
+  el.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 28px);background:var(--dark);color:var(--light);padding:11px 18px;border-radius:99px;font-size:13px;z-index:99';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),2200);
+}
+
+/* ==================== MÉTRICAS ==================== */
+function totais(mk){
+  const ps=(P()?.meses?.[mk]?.posts)||[]; const t={alcance:0,curtidas:0,salvos:0,compart:0,coment:0,n:0};
+  ps.forEach(p=>{ if(p.mx&&Object.values(p.mx).some(v=>v!==''&&v!=null)){ t.n++; CAMPOS.forEach(([k])=>t[k]+=Number(p.mx[k]||0)); } });
+  return t;
+}
+function mesAnterior(){ const [a,m]=mesAtual.split('-').map(Number); const d=new Date(a,m-2,1); return chave(d.getFullYear(),d.getMonth()); }
+function delta(x,y){ if(!y) return ''; const p=Math.round((x-y)/y*100); if(!isFinite(p)||!p) return ''; return `<em class="${p>0?'up':'down'}">${p>0?'▲':'▼'} ${Math.abs(p)}% vs mês anterior</em>`; }
+
+function viewMx(){
+  const t=totais(mesAtual), ta=totais(mesAnterior());
+  const ps=posts().filter(p=>p.mx&&Object.values(p.mx).some(v=>v!==''&&v!=null));
+  const A=P().meses[mesAtual]?.analise;
+  let h=`<div class="dash"><div class="kpis">
+    <div class="kpi"><b>${num(t.alcance)}</b><span>Alcance</span>${delta(t.alcance,ta.alcance)}</div>
+    <div class="kpi"><b>${num(t.salvos)}</b><span>Salvos</span>${delta(t.salvos,ta.salvos)}</div>
+    <div class="kpi"><b>${num(t.compart)}</b><span>Compartilhamentos</span>${delta(t.compart,ta.compart)}</div>
+    <div class="kpi"><b>${t.n}/${posts().length}</b><span>Posts com dados</span></div></div>`;
+  if(ps.length){
+    const grupo=c=>{ const g={};
+      ps.forEach(p=>{ g[p[c]]=g[p[c]]||{al:0,sv:0,n:0}; g[p[c]].al+=Number(p.mx.alcance||0); g[p[c]].sv+=Number(p.mx.salvos||0); g[p[c]].n++; });
+      return Object.entries(g).map(([k,v])=>({k,media:Math.round(v.al/v.n),sv:Math.round(v.sv/v.n),n:v.n})).sort((a,b)=>b.media-a.media); };
+    h+=`<div class="panel"><h3>Alcance médio por formato</h3><div class="bars">${barras(grupo('fmt'))}</div></div>`;
+    h+=`<div class="panel"><h3>Pilares que mais performam</h3><p class="lead">Ordenado por alcance médio.</p><div class="bars">${barras(grupo('pilar'),1)}</div></div>`;
+    const can=ps.filter(p=>/canad|geotag/i.test(p.flag||'')), rest=ps.filter(p=>!/canad|geotag/i.test(p.flag||''));
+    if(can.length){ const md=a=>a.length?Math.round(a.reduce((s,p)=>s+Number(p.mx.alcance||0),0)/a.length):0;
+      h+=`<div class="panel"><h3>Teste de geotag</h3><p class="lead">Alcance médio com e sem marcação.</p>
+        <div class="split"><div><b>${num(md(can))}</b><span>Com geotag · ${can.length}</span></div>
+        <div><b>${num(md(rest))}</b><span>Sem geotag · ${rest.length}</span></div></div></div>`; }
+    h+=`<div class="panel"><h3>Post a post</h3><div class="bars">${barras(ps.map(p=>({k:p.concept,media:Number(p.mx.alcance||0),sv:Number(p.mx.salvos||0),n:1})).sort((a,b)=>b.media-a.media),1)}</div></div>`;
+  }
+  h+=`<div class="panel"><h3>Leitura estratégica</h3><p class="lead">A IA lê o mês e compara com o anterior.</p>`;
+  if(A) h+=`<div class="ai-out"><h5>Resumo</h5><p>${esc(A.resumo||'')}</p>
+    <h5>O que funcionou</h5><ul>${(A.funcionou||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <h5>Pontos de atenção</h5><ul>${(A.atencao||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    ${A.canada?`<h5>Teste de geotag</h5><p>${esc(A.canada)}</p>`:''}
+    <h5>Ações para o próximo mês</h5><ol>${(A.acoes||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div>`;
+  if(analiseLoad) h+=`<p class="pending"><span class="dot"></span>Analisando o desempenho do mês…</p>`;
+  if(analiseErr) h+=`<p class="err">${esc(analiseErr)}</p>`;
+  h+=`<div class="btns"><button class="act ghost" onclick="lerMes()" ${analiseLoad?'disabled':''}>${A?'Reanalisar':'Ler métricas com IA'}</button></div></div>`;
+  h+=`<div class="panel"><h3>Planilha</h3>
+    <p class="lead">Exporte para o Sheets, ou cole o CSV para importar. Colunas: data, alcance, curtidas, salvos, compart, coment.</p>
+    <div class="btns"><button class="act ghost" onclick="exportCSV()">Exportar CSV</button>
+      <button class="act ghost" onclick="document.getElementById('imp').style.display='block'">Importar CSV</button></div>
+    <div id="imp" style="display:none"><textarea id="csv" placeholder="2026-08-04,12400,318,96,44,12"></textarea>
+      <div class="btns"><button class="act solid" onclick="importCSV()">Importar</button></div></div></div></div>`;
+  return h;
+}
+function barras(arr,sv){
+  const max=Math.max(...arr.map(x=>x.media),1);
+  return arr.map((x,i)=>`<div class="bar-row">
+    <span class="nm">${esc(x.k)}${x.n>1?`<small>${x.n} posts</small>`:''}</span>
+    <span class="vl">${num(x.media)}${sv?`<small style="display:block;font-family:'Public Sans';font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);opacity:.65;text-align:right">${num(x.sv)} salvos</small>`:''}</span>
+    <span class="bar-track"><i class="${i===0?'hi':''}" style="width:${x.media/max*100}%"></i></span></div>`).join('');
+}
+async function lerMes(){
+  const ps=posts().filter(p=>p.mx&&Object.values(p.mx).some(v=>v!==''&&v!=null));
+  if(!ps.length){ analiseErr='Preencha as métricas de pelo menos um post antes.'; render(); return; }
+  analiseLoad=true; analiseErr=''; render();
+  const ant=(P().meses[mesAnterior()]?.posts||[]).filter(p=>p.mx&&Object.values(p.mx).some(v=>v!==''&&v!=null)).map(p=>({data:p.date,formato:p.fmt,pilar:p.pilar,...p.mx}));
+  try{
+    P().meses[mesAtual].analise=await claude(`You are the head of social strategy for ${P().nome}${P().tagline?' ('+P().tagline+')':''}. Brand context:
+${voz()}
+
+CURRENT MONTH:
+${JSON.stringify(ps.map(p=>({data:p.date,formato:p.fmt,pilar:p.pilar,conceito:p.concept,obs:p.flag||'',...p.mx})),null,1)}
+
+${ant.length?'PREVIOUS MONTH:\n'+JSON.stringify(ant,null,1):'No data for the previous month.'}
+
+Analyse as a strategist, not a reporter. Weight saves and shares over likes, since they signal real intent. Cite the actual numbers behind each point.
+
+Respond with ONLY a JSON object, no preamble, no markdown fences, all text in Brazilian Portuguese:
+{"resumo":"two sentences on how the month really went","funcionou":["finding with numbers","another"],"atencao":["problem with numbers","another"],"canada":"what any geotag or audience test suggests, or empty string","acoes":["concrete action","another","another"]}`,1700);
+  }catch(e){ analiseErr='Não consegui ler as métricas agora. Tente de novo em alguns segundos.'; }
+  analiseLoad=false; salvar(); render();
+}
+function exportCSV(){
+  const L=[['data','conceito','formato','pilar','status',...CAMPOS.map(c=>c[0])].join(',')];
+  posts().forEach(p=>L.push([p.date,`"${(p.concept||'').replace(/"/g,'""')}"`,p.fmt,p.pilar,p.status||'aguardando',...CAMPOS.map(([k])=>p.mx?.[k]??'')].join(',')));
+  const b=new Blob(['\ufeff'+L.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download=`${projAtual}-${mesAtual}.csv`; a.click(); URL.revokeObjectURL(a.href);
+}
+function importCSV(){
+  const t=document.getElementById('csv').value.trim(); if(!t) return; let ok=0;
+  t.split(/\r?\n/).forEach(l=>{
+    const c=l.split(',').map(x=>x.trim()), d=c[0];
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) return;
+    const alvo=(P().meses[d.slice(0,7)]?.posts||[]).find(p=>p.date===d); if(!alvo) return;
+    alvo.mx=alvo.mx||{};
+    CAMPOS.forEach(([k],i)=>{ const v=c[i+1]; if(v!==undefined&&v!=='') alvo.mx[k]=parseInt(v,10)||0; });
+    ok++;
+  });
+  salvar(); render(); toast(ok?`${ok} post${ok>1?'s':''} atualizado${ok>1?'s':''}.`:'Nenhuma data bateu.');
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&aberto) fechar(); });
+aplicaTema(TEMA_AG);
+carregar();
+</script>
+</body>
+</html>
