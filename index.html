@@ -365,19 +365,90 @@ const SEED_CASA=[
 
 /* ==================== ESTADO ==================== */
 let DB={projetos:{}};
-/* camada de armazenamento: usa o storage do Claude quando existe,
-   senão cai para o localStorage do navegador (GitHub Pages) */
-const TEM_NUVEM = typeof window.storage !== 'undefined' && window.storage;
+/* ============ SUPABASE ============ */
+const SUPA_URL = 'https://lalkltemdcpkyehobzxm.supabase.co';
+const SUPA_KEY = 'sb_publishable_RVlKoQg85Q24NzlxnH1oOA_s-Lxs5kH';
+const LINHA = 'cultura-growth';
+const HEAD = {'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
+
+let sync = {estado:'', quando:'', hash:''};
+
 const store = {
   async get(){
-    if(TEM_NUVEM){ const r=await window.storage.get(KEY,true); return r?r.value:null; }
-    return localStorage.getItem(KEY);
+    try{
+      const r = await fetch(`${SUPA_URL}/rest/v1/studio?id=eq.${LINHA}&select=data`,{headers:HEAD});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const j = await r.json();
+      if(j.length && j[0].data){
+        const v = JSON.stringify(j[0].data);
+        localStorage.setItem(KEY, v);
+        sync.estado='nuvem'; sync.quando=agoraCurto(); sync.hash=v.length+'';
+        return v;
+      }
+      sync.estado='nuvem';
+      return localStorage.getItem(KEY);
+    }catch(e){
+      sync.estado='offline';
+      return localStorage.getItem(KEY);
+    }
   },
   async set(v){
-    if(TEM_NUVEM) return window.storage.set(KEY,v,true);
-    localStorage.setItem(KEY,v);
+    localStorage.setItem(KEY, v);
+    try{
+      const r = await fetch(`${SUPA_URL}/rest/v1/studio`,{
+        method:'POST',
+        headers:{...HEAD,'Prefer':'resolution=merge-duplicates'},
+        body:JSON.stringify({id:LINHA, data:JSON.parse(v), updated_at:new Date().toISOString()})
+      });
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      sync.estado='nuvem'; sync.quando=agoraCurto(); sync.hash=v.length+'';
+    }catch(e){
+      sync.estado='pendente';
+    }
+    pintaSync();
   }
 };
+
+const agoraCurto = () => new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+/* envio de arquivo para o Storage do Supabase */
+async function enviarStorage(file, nome){
+  const caminho = Date.now()+'-'+nome.replace(/[^\w.\-]/g,'_');
+  const r = await fetch(`${SUPA_URL}/storage/v1/object/midia/${caminho}`,{
+    method:'POST',
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':file.type||'application/octet-stream'},
+    body:file
+  });
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  return `${SUPA_URL}/storage/v1/object/public/midia/${caminho}`;
+}
+
+/* verifica mudanças feitas pela outra pessoa */
+async function checarNuvem(){
+  if(aberto || editando || config) return;
+  try{
+    const r = await fetch(`${SUPA_URL}/rest/v1/studio?id=eq.${LINHA}&select=data`,{headers:HEAD});
+    if(!r.ok) return;
+    const j = await r.json();
+    if(!j.length || !j[0].data) return;
+    const v = JSON.stringify(j[0].data);
+    if(v.length+'' !== sync.hash){
+      DB = JSON.parse(v);
+      localStorage.setItem(KEY, v);
+      sync.hash = v.length+''; sync.estado='nuvem'; sync.quando=agoraCurto();
+      render();
+      toast('Atualizado pela equipe.');
+    }
+  }catch(e){ sync.estado='offline'; pintaSync(); }
+}
+setInterval(checarNuvem, 20000);
+
+function pintaSync(){
+  const el=document.getElementById('syncbar'); if(!el) return;
+  const m={nuvem:['Sincronizado','#7a9a5a'],pendente:['Salvo no aparelho, aguardando rede','#DE6E27'],offline:['Sem conexão','#DE6E27']}[sync.estado]||['',''];
+  el.innerHTML = m[0]?`<span style="color:${m[1]}">●</span> ${m[0]}${sync.quando&&sync.estado==='nuvem'?' · '+sync.quando:''}`:'';
+}
+
 function quemSou(){ return localStorage.getItem('cg-quem') || ''; }
 function setQuem(n){ localStorage.setItem('cg-quem',n); render(); }
 
@@ -473,8 +544,7 @@ function viewHome(){
               <button onclick="setQuem('Bruno')" style="flex:1;padding:11px;border:1px solid rgba(245,242,234,.25);border-radius:3px;color:var(--ag-bone);font-size:12px;letter-spacing:.08em;text-transform:uppercase">Bruno</button>
               <button onclick="setQuem('Dacal')" style="flex:1;padding:11px;border:1px solid rgba(245,242,234,.25);border-radius:3px;color:var(--ag-bone);font-size:12px;letter-spacing:.08em;text-transform:uppercase">Dacal</button>
             </div></div>`}
-      ${TEM_NUVEM?'':`<p style="margin-top:14px;font-size:11.5px;color:var(--ag-mute);line-height:1.6;border-left:2px solid var(--ag-amber);padding-left:11px">
-        Os dados estão salvos neste aparelho. A sincronização entre Bruno e Dacal exige o banco de dados online, que ainda não foi conectado.</p>`}
+      <p id="syncbar" style="margin-top:14px;font-size:11.5px;color:var(--ag-mute);letter-spacing:.04em"></p>
     </div>
     <div class="sect-h"><h2>Projetos · ${ids.length}</h2></div>
     <div class="pcards">
@@ -760,6 +830,7 @@ function setMx(id,k,v){ const p=acha(id); p.mx=p.mx||{}; p.mx[k]=v===''?'':Math.
 
 /* ==================== MÍDIA ==================== */
 function embed(u){ u=(u||'').trim(); let m;
+  if(u.includes('/storage/v1/object/public/')) return {t:/\.(png|jpe?g|webp|gif|heic)$/i.test(u)?'img':'v', s:u};
   if((m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/))) return {t:'i',s:`https://drive.google.com/file/d/${m[1]}/preview`};
   if((m=u.match(/drive\.google\.com\/open\?id=([\w-]+)/))) return {t:'i',s:`https://drive.google.com/file/d/${m[1]}/preview`};
   if((m=u.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w-]+)/))) return {t:'i',s:`https://www.youtube.com/embed/${m[1]}`};
@@ -768,6 +839,8 @@ function embed(u){ u=(u||'').trim(); let m;
   if(/\.(mp4|webm|mov|m4v)(\?|$)/i.test(u)) return {t:'v',s:u};
   return null; }
 function blocoMidia(p){
+  if(p.enviando) return `<h4 class="lbl">Vídeo para aprovação</h4>
+    <p class="pending"><span class="dot"></span>Enviando arquivo para a nuvem…</p>`;
   if(!p.midia) return `<h4 class="lbl">Vídeo para aprovação</h4>
     <div class="drop">
       <p>Escolha um arquivo do celular, ou cole um link do Drive, YouTube, Vimeo ou Dropbox.</p>
@@ -775,7 +848,7 @@ function blocoMidia(p){
       <input type="file" id="file-${p.id}" accept="video/*,image/*" style="display:none" onchange="subirArquivo('${p.id}',this)">
       <input class="txt" id="mid-${p.id}" type="url" placeholder="https://drive.google.com/file/d/...">
       <div class="btns"><button class="act ghost" onclick="setMidia('${p.id}')">Usar link</button></div>
-      <p style="font-size:11px;opacity:.65;margin-top:9px">Arquivos até 3 MB ficam salvos no app. Vídeos maiores precisam de link.</p>
+      <p style="font-size:11px;opacity:.65;margin-top:9px">Arquivos até 45 MB. A equipe inteira vê o que for enviado.</p>
     </div>`;
   if(p.local){
     const img=(p.midiaTipo||'').startsWith('image');
@@ -788,7 +861,10 @@ function blocoMidia(p){
   }
   const e=embed(p.midia);
   return `<h4 class="lbl">Vídeo para aprovação</h4>
-    ${e?`<div class="player">${e.t==='i'?`<iframe src="${e.s}" allow="autoplay; fullscreen" allowfullscreen title="Prévia"></iframe>`:`<video src="${e.s}" controls playsinline preload="metadata"></video>`}</div>`
+    ${e?`<div class="player">${
+      e.t==='i'?`<iframe src="${e.s}" allow="autoplay; fullscreen" allowfullscreen title="Prévia"></iframe>`
+      :e.t==='img'?`<img src="${e.s}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`
+      :`<video src="${e.s}" controls playsinline preload="metadata"></video>`}</div>`
       :`<div class="drop"><p>Link anexado, sem prévia embutida para este serviço.</p></div>`}
     <div class="mbar"><a href="${esc(p.midia)}" target="_blank" rel="noopener">Abrir em nova aba</a>
     <button class="link-btn" onclick="tiraMidia('${p.id}')">Trocar vídeo</button></div>`;
@@ -796,20 +872,21 @@ function blocoMidia(p){
 function setMidia(id){ const p=acha(id),i=document.getElementById('mid-'+id),v=i.value.trim(); if(!v){i.focus();return;} p.midia=v; p.local=false; salvar(); pintaSheet(); }
 function subirArquivo(id,inp){
   const f=inp.files&&inp.files[0]; if(!f) return;
-  if(f.size > 3*1024*1024){
-    toast('Arquivo grande demais ('+(f.size/1048576).toFixed(1)+' MB). Use o link do Drive.');
+  if(f.size > 45*1024*1024){
+    toast('Arquivo acima de 45 MB. Use o link do Drive.');
     inp.value=''; return;
   }
-  const r=new FileReader();
-  r.onload=()=>{
-    const p=acha(id);
-    p.midia=r.result; p.local=true; p.midiaNome=f.name; p.midiaTipo=f.type;
+  const p=acha(id);
+  p.enviando=true; pintaSheet();
+  enviarStorage(f, f.name).then(url=>{
+    p.midia=url; p.local=false; p.midiaNome=f.name; p.midiaTipo=f.type; p.enviando=false;
     p.log=p.log||[];
     p.log.push({quem:quemSou()||'Equipe',quando:agora(),texto:'Anexou o arquivo '+f.name+'.'});
-    salvar(); pintaSheet(); toast('Arquivo anexado.');
-  };
-  r.onerror=()=>toast('Não consegui ler o arquivo.');
-  r.readAsDataURL(f);
+    salvar(); pintaSheet(); toast('Arquivo enviado.');
+  }).catch(e=>{
+    p.enviando=false; pintaSheet();
+    toast('Falha no envio. Verifique a conexão ou use link.');
+  });
 }
 function tiraMidia(id){ const p=acha(id); p.midia=''; salvar(); pintaSheet(); }
 
