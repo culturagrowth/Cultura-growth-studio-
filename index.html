@@ -312,6 +312,39 @@ NON-NEGOTIABLE VOICE RULES:
 - Warm, understated, confident. Quiet luxury, never salesy or exclamation-heavy.
 - Polished professional English. Captions run 2 to 4 short sentences. No emoji in the body.`;
 
+const SEED_SET=[
+ {date:'2026-09-01',fmt:'Reel',pilar:'The House',concept:'Morning to midnight',hora:'18:00 PT',
+  material:'Clipes dos vários momentos do dia. Onde faltar horário, IA dá vida a uma foto (ex: lareira acesa). Overlay de horários: 6AM, 12PM, 6PM, 10PM.',
+  flag:'Formato campeão · vídeo estruturado'},
+ {date:'2026-09-03',fmt:'Reel',pilar:'Experience',concept:'The walk to the pool',hora:'18:00 PT',
+  material:'Clipe contínuo do quarto até a piscina. Curto e hipnótico. IA pode dar movimento se faltar clipe contínuo.'},
+ {date:'2026-09-06',fmt:'Carrossel',pilar:'Destination',concept:'Why locals love September',hora:'12:00 PT',
+  material:'Vegetação, praia vazia, uma imagem da villa.',flag:'Resgate de agosto · domingo, aprovar até sexta'},
+ {date:'2026-09-08',fmt:'Reel',pilar:'Experience',concept:'POV: you wake up here',hora:'18:00 PT',
+  material:'POV da manhã: luz suave, café, vista. Pode nascer de foto animada por IA.'},
+ {date:'2026-09-10',fmt:'Reel',pilar:'Experience',concept:'Dinner starts here',hora:'18:00 PT',
+  material:'Cozinha e jantar como cena: ilha, o preparo, a mesa. IA dá movimento às fotos.'},
+ {date:'2026-09-13',fmt:'Carrossel',pilar:'Destination',concept:'Direct flights from Canada',hora:'12:00 PT',
+  hook:'Closer than you think, Canada',
+  material:'Carrossel de design: 5 cidades + logos das companhias.',
+  caption:'Vancouver, Calgary, Edmonton, Toronto and Montreal all fly direct to Puerto Vallarta, just minutes from Casa Llamarada. Air Canada, WestJet and Air Transat make it an easy, one-flight trip. Your next escape is closer than you think.',
+  cta:'Save this for your next trip',
+  tags:'#Sayulita #PuertoVallarta #Canada #DirectFlights #TravelTips #LuxuryVilla',
+  flag:'Resgate de agosto · domingo, aprovar até sexta'},
+ {date:'2026-09-15',fmt:'Reel',pilar:'The House',concept:'The house after dark',hora:'18:00 PT',
+  material:'A casa à noite: luz quente, piscina iluminada. Ângulo que quase ninguém mostra. IA excelente para dar vida a fotos noturnas.'},
+ {date:'2026-09-17',fmt:'Reel',pilar:'Experience',concept:'Golden hour never misses',hora:'18:00 PT',
+  material:'Material de golden hour + Soft Golden LUT.'},
+ {date:'2026-09-20',fmt:'Carrossel',pilar:'Destination',concept:'Before you land in Sayulita',hora:'12:00 PT',
+  material:'Carrossel minimalista, conduzido por texto e design.',flag:'Resgate de agosto · domingo, aprovar até sexta'},
+ {date:'2026-09-22',fmt:'Carrossel',pilar:'Conversion',concept:'What your stay includes',hora:'12:00 PT',
+  material:'O quarto, a piscina, o chef, o espaço. Vende o valor real. Foco em cliques e reserva.'},
+ {date:'2026-09-24',fmt:'Reel',pilar:'Experience',concept:"An evening you won't want to end",hora:'18:00 PT',
+  material:'Fim de tarde virando noite. Vibe romântica e relaxante.'},
+ {date:'2026-09-29',fmt:'Reel',pilar:'Destination',concept:'One last look at September',hora:'18:00 PT',
+  material:'Retrospectiva da vibe do mês, com chamada para outubro.'}
+];
+
 const SEED_CASA=[
  {date:'2026-08-04',fmt:'Carrossel',pilar:'Destination',concept:'Direct flights from Canada',hora:'19:00 PT',hook:'Closer than you think, Canada',
   material:'Carrossel de design: 5 cidades (Vancouver, Calgary, Edmonton, Toronto, Montreal) + logos das companhias. Canva, sem footage.',
@@ -349,7 +382,8 @@ function quemSou(){ return localStorage.getItem('cg-quem') || ''; }
 function setQuem(n){ localStorage.setItem('cg-quem',n); render(); }
 
 const HOJE = new Date();
-let projAtual=null, mesAtual=chave(HOJE.getFullYear(),HOJE.getMonth()), tab='cal', filtro='todos', aberto=null, editando=false, config=false;
+const MES_HOJE = HOJE.getFullYear()+'-'+String(HOJE.getMonth()+1).padStart(2,'0');
+let projAtual=null, mesAtual=MES_HOJE, tab='cal', filtro='todos', aberto=null, editando=false, config=false;
 let analiseLoad=false, analiseErr='';
 
 const uid=p=>(p||'x')+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
@@ -369,8 +403,17 @@ async function carregar(){
       nome:'Casa Llamarada', tagline:'Sayulita · MX',
       tema:{dark:'#2B3210',light:'#FBF8EF',accent:'#DE6E27',soft:'#E5E2D9',deep:'#505631',disp:'Cormorant Garamond'},
       voz:VOZ_CASA,
-      meses:{'2026-08':{posts:SEED_CASA.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))}}
+      meses:{
+        '2026-08':{posts:SEED_CASA.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))},
+        '2026-09':{posts:SEED_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))}
+      }
     };
+    await salvar();
+  }
+  // migração: garante setembro em instalações anteriores
+  const cl=DB.projetos['casa-llamarada'];
+  if(cl && cl.meses && !cl.meses['2026-09']){
+    cl.meses['2026-09']={posts:SEED_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))};
     await salvar();
   }
   render();
@@ -398,7 +441,7 @@ function mistura(h){ const n=parseInt(h.slice(1),16); const f=v=>Math.round(v*.8
 /* ==================== ROTEAMENTO ==================== */
 function abrirProjeto(id){
   projAtual=id; tab='cal'; filtro='todos'; config=false;
-  mesAtual = chave(HOJE.getFullYear(), HOJE.getMonth());
+  mesAtual = MES_HOJE;
   if(!P().meses[mesAtual]) P().meses[mesAtual]={posts:[]};
   aplicaTema(P().tema); document.body.classList.add('inproj');
   window.scrollTo(0,0); render();
