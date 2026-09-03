@@ -166,14 +166,36 @@ nav.tabs span{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;font
 /* ============ SHEET ============ */
 .scrim{position:fixed;inset:0;background:rgba(10,10,8,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
 .scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--light);border-radius:14px 14px 0 0;max-height:93vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-width:820px;margin:0 auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;top:0;z-index:61;background:var(--light);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);
+  max-width:820px;margin:0 auto;
+}
 .sheet.on{transform:translateY(0)}
-.sheet-top{padding:10px 18px 13px;border-bottom:1px solid var(--line);position:relative;flex:0 0 auto}
-.handle{width:36px;height:4px;background:var(--soft);border-radius:99px;margin:0 auto 12px}
-.sheet-top h2{font-family:var(--disp);font-size:22px;font-weight:500;line-height:1.2;padding-right:38px}
-.sheet-top .meta{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--deep);opacity:.7;margin-top:5px}
-.close{position:absolute;top:20px;right:14px;width:30px;height:30px;border-radius:99px;display:grid;place-items:center;color:var(--deep)}
-.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 30px}
+.sheet-top{
+  flex:0 0 auto;background:var(--dark);color:var(--light);
+  padding:calc(env(safe-area-inset-top) + 10px) 16px 14px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.sheet-top .st-main{flex:1;min-width:0}
+.sheet-top h2{font-family:var(--disp);font-size:20px;font-weight:500;line-height:1.22}
+.sheet-top .meta{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;opacity:.65;margin-top:5px}
+.close{
+  flex:0 0 40px;width:40px;height:40px;border-radius:99px;
+  display:grid;place-items:center;color:var(--light);
+  background:rgba(255,255,255,.12);
+}
+.close:active{background:rgba(255,255,255,.24)}
+.sheet-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px calc(env(safe-area-inset-bottom) + 40px)}
+.sheet-foot{
+  flex:0 0 auto;border-top:1px solid var(--line);background:var(--light);
+  padding:11px 18px calc(env(safe-area-inset-bottom) + 11px);
+}
+.sheet-foot button{
+  width:100%;background:var(--dark);color:var(--light);border-radius:3px;
+  padding:14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+}
 
 .sec{padding-top:19px}
 .sec + .sec{margin-top:19px;border-top:1px solid var(--line)}
@@ -265,6 +287,7 @@ textarea{resize:vertical;min-height:74px}
 <div class="sheet" id="sheet" role="dialog" aria-modal="true">
   <div class="sheet-top" id="sheetTop"></div>
   <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-foot"><button onclick="fechar()">Fechar e voltar</button></div>
 </div>
 
 <script>
@@ -276,7 +299,7 @@ const FORMATOS=['Reel','Carrossel','Foto','Story'];
 const PILARES=['Destination','The House','Experience','Social Proof','Conversion','Design','Behind the Scenes','Educacional','Promocional'];
 const FONTES=[['Cormorant Garamond','Serifa clássica'],['Fraunces','Serifa moderna'],['Instrument Serif','Serifa editorial'],['DM Serif Display','Serifa display']];
 const STATES={aguardando:{label:'Aguardando'},aprovado:{label:'Aprovado'},ajustar:{label:'Ajustar'},publicado:{label:'Publicado'}};
-const CAMPOS=[['alcance','Alcance'],['seguidores','Novos seg.'],['cliques','Cliques link'],['salvos','Salvos'],['compart','Compart.'],['curtidas','Curtidas'],['coment','Coment.']];
+const CAMPOS=[['alcance','Alcance'],['curtidas','Curtidas'],['salvos','Salvos'],['compart','Compart.'],['coment','Coment.']];
 const KEY='cultura-growth-studio-v3';
 
 const VOZ_CASA=`You write for Casa Llamarada, a luxury 4-bedroom private villa in Sayulita, Riviera Nayarit, Mexico (casallamarada.com).
@@ -307,61 +330,26 @@ const SEED_CASA=[
  {date:'2026-08-30',fmt:'Carrossel',pilar:'Destination',concept:'Why locals love September',hora:'12:00 PT',material:'Vegetação, praia vazia, uma imagem da villa.',flag:'Domingo · aprovar até sexta'}
 ];
 
-const SEED_CASA_SET=[
- {date:'2026-09-01',fmt:'Reel',pilar:'Experience',concept:'Morning to midnight',hora:'19:00 PT',hook:'A day at Casa Llamarada',
-  material:'FORMATO CAMPEÃO (vídeo sobre vídeo + horário). A casa da primeira luz até a lareira acesa: 6AM → 9AM → 12PM → 4PM → 6PM → 10PM. Picture-in-picture com horário em cada corte. Usa material existente; onde faltar um horário, IA dá vida a uma foto.',
-  caption:'From the first light to the last. A day at Casa Llamarada moves slowly, and somehow the hours still get away from you. Morning coffee, an afternoon by the pool, and a fire that keeps the night going.',
-  cta:'Save this for your next escape',tags:'#Sayulita #CasaLlamarada #LuxuryVilla #SlowLiving #SayulitaMexico #RivieraNayarit'},
- {date:'2026-09-03',fmt:'Reel',pilar:'The House',concept:'The walk to the pool',hora:'19:00 PT',
-  material:'Micro-experiência da piscina COM cortes no ritmo da música (não contínuo). Já temos muito material de piscina — variar os ângulos. Confiança para reservar.',
-  caption:'Every day ends up here. The water, the loungers, and nothing on the schedule. This is the part of the trip you will keep coming back to.',
-  cta:'Book your stay in Sayulita — link in bio',tags:'#Sayulita #PoolVibes #LuxuryVilla #SayulitaMexico #RivieraNayarit #SlowLiving'},
- {date:'2026-09-06',fmt:'Carrossel',pilar:'Destination',concept:'Why locals love September',hora:'13:00 PT',
-  material:'RESGATE DE AGOSTO. Vegetação, praia vazia, uma imagem da villa. Vende a baixa temporada.',
-  caption:'Fewer people, greener jungle, and an ocean that stays warm long after summer ends. Ask anyone who lives here which month they would choose, and they will all say the same one.',
-  cta:'Plan your September escape — link in bio',tags:'#Sayulita #GreenSeason #RivieraNayarit #MexicoTravel #ShoulderSeason #TravelTips',flag:'Domingo · resgate de agosto'},
- {date:'2026-09-08',fmt:'Reel',pilar:'Experience',concept:'Wake up here',hora:'19:00 PT',hook:'POV: your morning in Sayulita',
-  material:'O QUARTO/SUÍTE (pouco explorado). POV da manhã: a cama, a luz suave, a vista, o closet. Pode nascer de uma foto animada por IA.',
-  caption:'Soft light, ocean air, and mornings that ask nothing of you. Waking up at Casa Llamarada is the part guests talk about long after they leave.',
-  cta:'Tag who you would bring',tags:'#Sayulita #SlowMornings #LuxuryVilla #SayulitaMexico #RivieraNayarit #MorningView'},
- {date:'2026-09-10',fmt:'Reel',pilar:'Experience',concept:'Dinner starts here',hora:'19:00 PT',
-  material:'Cozinha/jantar. Ilha de mármore, o preparo, a mesa. Usa fotos de cozinha; IA dá movimento.',
-  caption:'Marble island, walnut everywhere, and doors that open straight to the pool. Cook with what you found at the market, then eat where the jungle starts.',
-  cta:'Save this for your first night here',tags:'#Sayulita #VillaKitchen #LuxuryVilla #FoodieTravel #SayulitaMexico #RivieraNayarit'},
- {date:'2026-09-13',fmt:'Carrossel',pilar:'Destination',concept:'Direct flights from Canada',hora:'13:00 PT',hook:'Closer than you think, Canada',
-  material:'RESGATE DE AGOSTO. Carrossel de design: cidades canadenses + companhias. VERIFICAR rotas no Google Flights na semana. Verificado: Vancouver (Air Canada+WestJet), Calgary (WestJet), Toronto (mais forte), Montreal (Air Transat), Edmonton (sazonal).',
-  caption:'Vancouver, Calgary, Toronto, Montreal and Edmonton all connect nonstop to Puerto Vallarta, just 40 minutes from Casa Llamarada. Air Canada, WestJet and Air Transat make it a one-flight trip. Your next escape is easier to reach than you think.',
-  cta:'Save this for your next trip',tags:'#Sayulita #PuertoVallarta #Canada #DirectFlights #TravelFromCanada #LuxuryVilla',flag:'Domingo · resgate de agosto'},
- {date:'2026-09-15',fmt:'Reel',pilar:'Design',concept:'The bathroom nobody expects',hora:'19:00 PT',hook:'Wait for the tile',
-  material:'O BANHEIRO (pouco explorado). Azulejo verde geométrico, box, piso de madeira. Revelação atrasada.',
-  caption:'Hand-painted green geometry, warm walnut, and a walk-in shower with a teak floor. The room guests photograph most is not the one you would guess.',
-  cta:'Save this for your design board',tags:'#InteriorDesign #Sayulita #DesignDetails #LuxuryVilla #TileDesign #BoutiqueStay'},
- {date:'2026-09-17',fmt:'Reel',pilar:'Experience',concept:'Golden hour never misses',hora:'19:00 PT',hook:'The best hour of the day',
-  material:'Fim de tarde. Material de golden hour + LUT Soft Golden.',
-  caption:'Every evening the sky puts on a show, and from Casa Llamarada you have got a front-row seat. The pool turns gold, the day slows down, and for a moment nothing else matters.',
-  cta:'Tag a sunset lover',tags:'#Sayulita #GoldenHour #SunsetLovers #LuxuryVilla #SayulitaMexico #RivieraNayarit'},
- {date:'2026-09-20',fmt:'Carrossel',pilar:'Destination',concept:'Before you land in Sayulita',hora:'13:00 PT',hook:'Read this before you land',
-  material:'RESGATE DE AGOSTO. Carrossel minimalista de texto/design (Canva). Dicas práticas de chegada.',
-  caption:'Getting here from Puerto Vallarta, cash versus card, what to pack for green season, and the one thing every guest forgets. Practical notes from people who live it.',
-  cta:'Save this before your trip',tags:'#Sayulita #TravelTips #MexicoTravel #PuertoVallarta #TravelGuide #RivieraNayarit',flag:'Domingo · resgate de agosto'},
- {date:'2026-09-22',fmt:'Carrossel',pilar:'Conversion',concept:'What your stay includes',hora:'13:00 PT',
-  material:'Foco em cliques/reserva: o quarto, a piscina, o chef, o espaço. Vende o valor real da estadia.',
-  caption:'A hotel gives you a room. Casa Llamarada gives you the whole place: four bedrooms, a chef ready kitchen, a private pool, and every quiet corner in between. This is what your stay actually includes.',
-  cta:'Book the whole villa — link in bio',tags:'#Sayulita #LuxuryVilla #PrivateVilla #VacationRental #SayulitaMexico #RivieraNayarit'},
- {date:'2026-09-24',fmt:'Reel',pilar:'Experience',concept:'An evening you wont want to end',hora:'19:00 PT',
-  material:'Fim de tarde → noite. Vibe romântica/relaxante. Golden hour entrando na lareira.',
-  caption:'The light goes gold, the pool glows, and the evening slows all the way down. Some nights you do not want to end, and this is one of them.',
-  cta:'Book your stay in Sayulita — link in bio',tags:'#Sayulita #CasaLlamarada #GoldenHour #LuxuryVilla #SayulitaMexico #RivieraNayarit'},
- {date:'2026-09-29',fmt:'Reel',pilar:'Destination',concept:'One last look at September',hora:'19:00 PT',
-  material:'Fecha o mês: retrospectiva da vibe de setembro, chamada para outubro.',
-  caption:'Warm water, quiet beaches, and a jungle at its greenest. September in Sayulita was everything the locals promised. October is looking just as good.',
-  cta:'Plan your escape — link in bio',tags:'#Sayulita #GreenSeason #RivieraNayarit #MexicoTravel #ShoulderSeason #LuxuryVilla'}
-];
-
-
 /* ==================== ESTADO ==================== */
 let DB={projetos:{}};
-let projAtual=null, mesAtual='2026-09', tab='cal', filtro='todos', aberto=null, editando=false, config=false;
+/* camada de armazenamento: usa o storage do Claude quando existe,
+   senão cai para o localStorage do navegador (GitHub Pages) */
+const TEM_NUVEM = typeof window.storage !== 'undefined' && window.storage;
+const store = {
+  async get(){
+    if(TEM_NUVEM){ const r=await window.storage.get(KEY,true); return r?r.value:null; }
+    return localStorage.getItem(KEY);
+  },
+  async set(v){
+    if(TEM_NUVEM) return window.storage.set(KEY,v,true);
+    localStorage.setItem(KEY,v);
+  }
+};
+function quemSou(){ return localStorage.getItem('cg-quem') || ''; }
+function setQuem(n){ localStorage.setItem('cg-quem',n); render(); }
+
+const HOJE = new Date();
+let projAtual=null, mesAtual=chave(HOJE.getFullYear(),HOJE.getMonth()), tab='cal', filtro='todos', aberto=null, editando=false, config=false;
 let analiseLoad=false, analiseErr='';
 
 const uid=p=>(p||'x')+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
@@ -374,33 +362,23 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const agora=()=>new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
 
 async function carregar(){
-  try{ const r=await window.storage.get(KEY,true); if(r&&r.value) DB=JSON.parse(r.value); }catch(e){ DB={projetos:{}}; }
+  try{ const v=await store.get(); if(v) DB=JSON.parse(v); }catch(e){ DB={projetos:{}}; }
   if(!DB.projetos) DB.projetos={};
   if(!Object.keys(DB.projetos).length){
     DB.projetos['casa-llamarada']={
       nome:'Casa Llamarada', tagline:'Sayulita · MX',
       tema:{dark:'#2B3210',light:'#FBF8EF',accent:'#DE6E27',soft:'#E5E2D9',deep:'#505631',disp:'Cormorant Garamond'},
       voz:VOZ_CASA,
-      meses:{
-        '2026-08':{posts:SEED_CASA.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))},
-        '2026-09':{posts:SEED_CASA_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))}
-      }
+      meses:{'2026-08':{posts:SEED_CASA.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))}}
     };
     await salvar();
-  } else {
-    /* migração: injeta setembro em projeto Casa Llamarada já existente, sem apagar nada */
-    const cl=DB.projetos['casa-llamarada'];
-    if(cl && cl.meses && !cl.meses['2026-09']){
-      cl.meses['2026-09']={posts:SEED_CASA_SET.map(p=>({id:uid('p'),status:'aguardando',mx:{},...p}))};
-      await salvar();
-    }
   }
   render();
 }
 let deb=null;
 async function salvar(){
   clearTimeout(deb);
-  deb=setTimeout(async()=>{ try{ await window.storage.set(KEY,JSON.stringify(DB),true); }catch(e){ console.error(e); } },260);
+  deb=setTimeout(async()=>{ try{ await store.set(JSON.stringify(DB)); }catch(e){ console.error(e); } },260);
 }
 
 /* ==================== TEMA ==================== */
@@ -420,8 +398,7 @@ function mistura(h){ const n=parseInt(h.slice(1),16); const f=v=>Math.round(v*.8
 /* ==================== ROTEAMENTO ==================== */
 function abrirProjeto(id){
   projAtual=id; tab='cal'; filtro='todos'; config=false;
-  const ms=Object.keys(P().meses||{}).sort();
-  mesAtual = ms.includes('2026-08') ? '2026-08' : (ms[0] || chave(new Date().getFullYear(), new Date().getMonth()));
+  mesAtual = chave(HOJE.getFullYear(), HOJE.getMonth());
   if(!P().meses[mesAtual]) P().meses[mesAtual]={posts:[]};
   aplicaTema(P().tema); document.body.classList.add('inproj');
   window.scrollTo(0,0); render();
@@ -444,6 +421,17 @@ function viewHome(){
     <div class="home-top">
       <div class="wordmark"><b>Cultura Growth</b><i>Studio</i></div>
       <p>Calendário editorial, aprovação e métricas dos projetos sob gestão. Selecione um projeto para entrar.</p>
+      ${quemSou()
+        ? `<p style="margin-top:14px;font-size:12px;color:var(--ag-mute)">Conectado como <b style="color:var(--ag-amber);font-weight:500">${esc(quemSou())}</b>
+            <button onclick="setQuem('')" style="font-size:11px;color:var(--ag-mute);text-decoration:underline;margin-left:8px">trocar</button></p>`
+        : `<div style="margin-top:16px;padding:14px;border:1px solid rgba(245,242,234,.16);border-radius:5px">
+            <p style="font-size:12px;color:var(--ag-mute);margin-bottom:10px">Quem está usando? Isso identifica suas ações para o resto da equipe.</p>
+            <div style="display:flex;gap:8px">
+              <button onclick="setQuem('Bruno')" style="flex:1;padding:11px;border:1px solid rgba(245,242,234,.25);border-radius:3px;color:var(--ag-bone);font-size:12px;letter-spacing:.08em;text-transform:uppercase">Bruno</button>
+              <button onclick="setQuem('Dacal')" style="flex:1;padding:11px;border:1px solid rgba(245,242,234,.25);border-radius:3px;color:var(--ag-bone);font-size:12px;letter-spacing:.08em;text-transform:uppercase">Dacal</button>
+            </div></div>`}
+      ${TEM_NUVEM?'':`<p style="margin-top:14px;font-size:11.5px;color:var(--ag-mute);line-height:1.6;border-left:2px solid var(--ag-amber);padding-left:11px">
+        Os dados estão salvos neste aparelho. A sincronização entre Bruno e Dacal exige o banco de dados online, que ainda não foi conectado.</p>`}
     </div>
     <div class="sect-h"><h2>Projetos · ${ids.length}</h2></div>
     <div class="pcards">
@@ -628,10 +616,12 @@ function fechar(){ aberto=null; editando=false; document.getElementById('scrim')
 function pintaSheet(){
   const p=acha(aberto); if(!p) return fechar();
   const d=new Date(p.date+'T12:00:00');
-  document.getElementById('sheetTop').innerHTML=`<div class="handle"></div>
-    <button class="close" onclick="fechar()" aria-label="Fechar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <h2>${esc(p.concept)}</h2>
-    <p class="meta">${d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})} · ${p.fmt} · ${p.pilar}</p>`;
+  document.getElementById('sheetTop').innerHTML=`
+    <button class="close" onclick="fechar()" aria-label="Voltar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="st-main">
+      <h2>${esc(p.concept)}</h2>
+      <p class="meta">${d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'})} · ${p.fmt} · ${p.pilar}</p>
+    </div>`;
   document.getElementById('sheetBody').innerHTML = editando?formHTML(p):detalheHTML(p);
 }
 function detalheHTML(p){
@@ -642,10 +632,17 @@ function detalheHTML(p){
     <div class="btns">${st==='aprovado'
       ?`<button class="act solid" onclick="setStatus('${p.id}','publicado')">Marcar publicado</button><button class="act ghost" onclick="setStatus('${p.id}','aguardando')">Reabrir</button>`
       :st==='publicado'?`<button class="act ghost" onclick="setStatus('${p.id}','aprovado')">Desfazer publicação</button>`
-      :`<button class="act" onclick="setStatus('${p.id}','aprovado')">Aprovar</button><button class="act warn" onclick="pedirAjuste('${p.id}')">Pedir ajuste</button>`}</div>
-    ${(st==='aguardando'||st==='ajustar')?`<textarea id="ta-${p.id}" placeholder="O que precisa mudar neste post?">${esc(p.nota||'')}</textarea>`:''}
-    ${p.nota?`<div class="note-log"><b>Ajuste pedido</b>${esc(p.nota)}</div>`:''}
-    ${p.quando?`<p class="stamp">Atualizado · ${p.quando}</p>`:''}</div>
+      :`<button class="act" onclick="setStatus('${p.id}','aprovado')">Aprovar</button><button class="act warn" onclick="setStatus('${p.id}','ajustar')">Pedir ajuste</button>`}</div>
+    ${p.quando?`<p class="stamp">${esc(p.porQuem||'Alguém')} · ${p.quando}</p>`:''}
+  </div>
+
+  <div class="sec"><h4 class="lbl">Conversa sobre este post</h4>
+    <textarea id="ta-${p.id}" placeholder="Escreva aqui o que precisa mudar, ou deixe um recado para a equipe."></textarea>
+    <div class="btns"><button class="act solid" onclick="comentar('${p.id}')">Salvar observação</button></div>
+    ${(p.log||[]).length?`<div style="margin-top:14px">${(p.log||[]).slice().reverse().map(l=>
+      `<div class="note-log" style="margin-top:8px"><b>${esc(l.quem)} · ${esc(l.quando)}</b>${esc(l.texto)}</div>`).join('')}</div>`
+      :`<p class="empty" style="margin-top:10px">Nenhuma observação ainda.</p>`}
+  </div>
   ${p.hook?`<div class="sec"><h4 class="lbl">Hook</h4><p class="hook">${esc(p.hook)}</p></div>`:''}
   <div class="sec"><h4 class="lbl">Material necessário</h4><p>${esc(p.material||'—')}</p></div>
   <div class="sec"><h4 class="lbl">Legenda</h4>
@@ -701,8 +698,21 @@ function apagar(id){
   P().meses[mesAtual].posts=P().meses[mesAtual].posts.filter(x=>x.id!==id);
   salvar(); fechar();
 }
-function setStatus(id,st){ const p=acha(id); p.status=st; p.quando=agora(); if(st!=='ajustar')p.nota=''; salvar(); pintaSheet(); }
-function pedirAjuste(id){ const p=acha(id),ta=document.getElementById('ta-'+id),t=ta?ta.value.trim():''; if(!t){ta?.focus();return;} p.status='ajustar'; p.nota=t; p.quando=agora(); salvar(); pintaSheet(); }
+function setStatus(id,st){
+  const p=acha(id);
+  p.status=st; p.quando=agora(); p.porQuem=quemSou()||'Equipe';
+  p.log=p.log||[];
+  p.log.push({quem:p.porQuem, quando:p.quando, texto:'Marcou como '+STATES[st].label.toLowerCase()+'.'});
+  salvar(); pintaSheet();
+}
+function comentar(id){
+  const p=acha(id), ta=document.getElementById('ta-'+id), t=ta?ta.value.trim():'';
+  if(!t){ ta?.focus(); return; }
+  p.log=p.log||[];
+  p.log.push({quem:quemSou()||'Equipe', quando:agora(), texto:t});
+  p.nota=t; p.quando=agora();
+  salvar(); pintaSheet(); toast('Observação salva.');
+}
 function setMx(id,k,v){ const p=acha(id); p.mx=p.mx||{}; p.mx[k]=v===''?'':Math.max(0,parseInt(v,10)||0); salvar(); }
 
 /* ==================== MÍDIA ==================== */
@@ -716,9 +726,23 @@ function embed(u){ u=(u||'').trim(); let m;
   return null; }
 function blocoMidia(p){
   if(!p.midia) return `<h4 class="lbl">Vídeo para aprovação</h4>
-    <div class="drop"><p>Cole o link do Drive, YouTube, Vimeo ou Dropbox.<br>O vídeo toca aqui, sem download.</p>
-    <input class="txt" id="mid-${p.id}" type="url" placeholder="https://drive.google.com/file/d/...">
-    <div class="btns"><button class="act ghost" onclick="setMidia('${p.id}')">Anexar</button></div></div>`;
+    <div class="drop">
+      <p>Escolha um arquivo do celular, ou cole um link do Drive, YouTube, Vimeo ou Dropbox.</p>
+      <div class="btns"><button class="act ghost" onclick="document.getElementById('file-${p.id}').click()">Escolher do celular</button></div>
+      <input type="file" id="file-${p.id}" accept="video/*,image/*" style="display:none" onchange="subirArquivo('${p.id}',this)">
+      <input class="txt" id="mid-${p.id}" type="url" placeholder="https://drive.google.com/file/d/...">
+      <div class="btns"><button class="act ghost" onclick="setMidia('${p.id}')">Usar link</button></div>
+      <p style="font-size:11px;opacity:.65;margin-top:9px">Arquivos até 3 MB ficam salvos no app. Vídeos maiores precisam de link.</p>
+    </div>`;
+  if(p.local){
+    const img=(p.midiaTipo||'').startsWith('image');
+    return `<h4 class="lbl">Vídeo para aprovação</h4>
+      <div class="player">${img
+        ?`<img src="${p.midia}" alt="${esc(p.midiaNome||'')}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`
+        :`<video src="${p.midia}" controls playsinline></video>`}</div>
+      <div class="mbar"><span style="opacity:.7">${esc(p.midiaNome||'Arquivo do celular')}</span>
+      <button class="link-btn" onclick="tiraMidia('${p.id}')">Trocar</button></div>`;
+  }
   const e=embed(p.midia);
   return `<h4 class="lbl">Vídeo para aprovação</h4>
     ${e?`<div class="player">${e.t==='i'?`<iframe src="${e.s}" allow="autoplay; fullscreen" allowfullscreen title="Prévia"></iframe>`:`<video src="${e.s}" controls playsinline preload="metadata"></video>`}</div>`
@@ -726,7 +750,24 @@ function blocoMidia(p){
     <div class="mbar"><a href="${esc(p.midia)}" target="_blank" rel="noopener">Abrir em nova aba</a>
     <button class="link-btn" onclick="tiraMidia('${p.id}')">Trocar vídeo</button></div>`;
 }
-function setMidia(id){ const p=acha(id),i=document.getElementById('mid-'+id),v=i.value.trim(); if(!v){i.focus();return;} p.midia=v; salvar(); pintaSheet(); }
+function setMidia(id){ const p=acha(id),i=document.getElementById('mid-'+id),v=i.value.trim(); if(!v){i.focus();return;} p.midia=v; p.local=false; salvar(); pintaSheet(); }
+function subirArquivo(id,inp){
+  const f=inp.files&&inp.files[0]; if(!f) return;
+  if(f.size > 3*1024*1024){
+    toast('Arquivo grande demais ('+(f.size/1048576).toFixed(1)+' MB). Use o link do Drive.');
+    inp.value=''; return;
+  }
+  const r=new FileReader();
+  r.onload=()=>{
+    const p=acha(id);
+    p.midia=r.result; p.local=true; p.midiaNome=f.name; p.midiaTipo=f.type;
+    p.log=p.log||[];
+    p.log.push({quem:quemSou()||'Equipe',quando:agora(),texto:'Anexou o arquivo '+f.name+'.'});
+    salvar(); pintaSheet(); toast('Arquivo anexado.');
+  };
+  r.onerror=()=>toast('Não consegui ler o arquivo.');
+  r.readAsDataURL(f);
+}
 function tiraMidia(id){ const p=acha(id); p.midia=''; salvar(); pintaSheet(); }
 
 /* ==================== IA ==================== */
