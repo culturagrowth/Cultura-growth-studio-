@@ -47,7 +47,7 @@ html{-webkit-text-size-adjust:100%}
 body{
   background:var(--paper);color:var(--ink);
   font-family:'Archivo',system-ui,-apple-system,sans-serif;
-  font-weight:400;line-height:1.5;overscroll-behavior-y:none;
+  font-weight:400;line-height:1.5;overscroll-behavior:none;touch-action:manipulation;
   font-size:15px;
 }
 body.inproj{padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom))}
@@ -61,7 +61,9 @@ input,textarea,select{font-family:inherit;color:var(--ink);font-size:15px}
 /* ============================================================
    SPLASH
    ============================================================ */
-html{background:#11110F}
+html{background:#F2EFE7}
+html,body{overflow-x:clip;overscroll-behavior:none}
+html:has(body.booting){background:#11110F}
 #splash{
   position:fixed;inset:0;z-index:200;background:#11110F;
   display:grid;place-items:center;
@@ -203,7 +205,7 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
    CALENDÁRIO
    ============================================================ */
 .cal{padding:16px 0 10px}
-.cal-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.cal-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;overscroll-behavior-x:contain}
 .viewsw{display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .viewsw button{padding:7px 13px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--p-deep);opacity:.6;transition:.15s}
 .viewsw button[aria-pressed="true"]{background:var(--p-dark);color:var(--p-light);opacity:1}
@@ -215,13 +217,10 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
 .fbtn.on{background:var(--p-dark);color:var(--p-light);border-color:var(--p-dark)}
 .fbtn i{width:6px;height:6px;border-radius:99px;background:var(--st-ajustar);display:block}
 
-.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}
+.dow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin-bottom:6px}
 .dow span{text-align:center;font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--p-deep);opacity:.5}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-/* o grid do mês usa a largura cheia no celular para o título caber */
-@media(max-width:560px){
-  .cal .dow,.cal .grid{margin-left:-8px;margin-right:-8px}
-}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+
 .cell{
   min-height:88px;border-radius:var(--r);padding:4px 2px 4px;
   display:flex;flex-direction:column;align-items:stretch;gap:3px;
@@ -319,7 +318,7 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
 /* ============================================================
    LISTA
    ============================================================ */
-.filters{display:flex;gap:6px;overflow-x:auto;padding:14px 0 2px;scrollbar-width:none}
+.filters{display:flex;gap:6px;overflow-x:auto;padding:14px 0 2px;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-overflow-scrolling:touch}
 .filters::-webkit-scrollbar{display:none}
 .fchip{
   flex:0 0 auto;border:1px solid var(--line);color:var(--p-deep);font-size:10px;
@@ -353,7 +352,8 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
   .card .dt span{color:#FFFDF8;opacity:.72}
   .card .cmain h3{color:#FFFDF8}
   .card .fbadge{color:#FFFDF8;opacity:.78}
-  .card .badge{color:#FFFDF8}
+  .card .badge{color:#FFFDF8 !important}
+  .card .badge i{box-shadow:0 0 0 1px rgba(255,255,255,.35)}
   .card.late{background:color-mix(in srgb, var(--st-cancelado) 20%, #15140F)}
   .wk{color:#FFFDF8;opacity:.55}
   .fchip{color:#FFFDF8;border-color:rgba(255,255,255,.2)}
@@ -386,7 +386,7 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
 .sh-top .sh-meta{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
 .sh-close{flex:0 0 40px;width:40px;height:40px;border-radius:99px;display:grid;place-items:center;background:rgba(255,255,255,.12)}
 .sh-close:active{background:rgba(255,255,255,.25)}
-.sh-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px calc(env(safe-area-inset-bottom) + 34px)}
+.sh-body{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 18px calc(env(safe-area-inset-bottom) + 34px)}
 .sh-foot{
   flex:0 0 auto;border-top:1px solid var(--line);background:var(--p-light);
   padding:10px 18px calc(env(safe-area-inset-bottom) + 10px);display:flex;gap:8px;
@@ -466,7 +466,7 @@ textarea,input.txt,select.txt{
   padding:11px 12px;font-size:14px;line-height:1.55;margin-top:8px;
 }
 textarea{resize:vertical;min-height:72px}
-label .flbl{display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--p-deep);opacity:.7;margin-top:14px}
+.flbl{display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--p-deep);opacity:.7;margin-top:14px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 
 /* log */
@@ -554,6 +554,121 @@ label .flbl{display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;t
 #toast i{width:6px;height:6px;border-radius:99px;background:var(--lime);display:block}
 
 
+
+
+/* ---- mês no celular: grade compacta ---- */
+.grid.mini{gap:2px}
+.cell.mini{
+  min-height:48px;padding:5px 1px 4px;align-items:center;justify-content:flex-start;gap:4px;
+  border:1px solid transparent;border-radius:6px;cursor:pointer;background:transparent;
+}
+.cell.mini .dnum{font-size:12.5px;font-weight:600;opacity:.8}
+.cell.mini.today .dnum{width:22px;height:22px;font-size:11.5px}
+.cell.mini .dots{display:flex;gap:2.5px;justify-content:center;flex-wrap:wrap;max-width:100%;min-height:5px}
+.cell.mini .dots i{width:5px;height:5px;border-radius:99px;display:block;flex:0 0 5px}
+.cell.mini .dots i.ev{background:transparent;box-shadow:inset 0 0 0 1.5px var(--p-dark)}
+.cell.mini .cnt{font-size:8px;font-weight:700;opacity:.55;line-height:1}
+.cell.mini.sel{background:var(--p-dark);border-color:var(--p-dark)}
+.cell.mini.sel .dnum{color:var(--p-light);opacity:1}
+.cell.mini.sel.today .dnum{background:var(--p-accent);color:var(--p-dark)}
+.cell.mini.sel .dots i.ev{box-shadow:inset 0 0 0 1.5px var(--p-light)}
+.cell.mini.sel .cnt{color:var(--p-light);opacity:.75}
+.cell.mini.tem-late:not(.sel){border-color:color-mix(in srgb,var(--st-cancelado) 35%,transparent)}
+.cell.mini.drop-on{background:color-mix(in srgb,var(--p-accent) 28%,transparent);border-color:var(--p-accent)}
+
+/* ---- agenda do dia ---- */
+.agenda{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+.ag-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.ag-h h3{font-weight:700;font-size:16px;letter-spacing:-.01em;line-height:1.25}
+.ag-h span{flex:0 0 auto;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--p-deep);opacity:.6}
+.ag-list{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.ag-list .wchip h4{font-size:14.5px;line-height:1.3}
+.ag-vazio{font-size:13px;color:var(--p-deep);opacity:.5;padding:10px 0}
+.ag-add{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
+.ag-add button{
+  padding:12px 8px;border:1px dashed color-mix(in srgb,var(--p-dark) 28%,transparent);border-radius:var(--r);
+  font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--p-deep);
+}
+.ag-add button:active{background:color-mix(in srgb,var(--p-accent) 20%,transparent)}
+.witems{min-width:0}
+.wchip .wc-main{min-width:0}
+.wchip h4{overflow-wrap:anywhere}
+
+
+
+/* ---- campos e seletores ---- */
+.fld{display:block;margin-top:18px}
+.fld:first-child{margin-top:4px}
+.fld .flbl{margin-top:0;margin-bottom:8px}
+.txt.big{font-size:17px;font-weight:600;padding:13px 13px}
+.txt.flash{animation:flashFld .45s ease}
+@keyframes flashFld{0%{background:color-mix(in srgb,var(--p-accent) 35%,#fff)}100%{background:var(--white)}}
+
+.opts{display:grid;gap:6px;margin-top:0}
+.opts.grid4{grid-template-columns:repeat(3,1fr)}
+.opts.grid2{grid-template-columns:repeat(2,1fr)}
+.opts.fila{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-overflow-scrolling:touch}
+.opts.fila::-webkit-scrollbar{display:none}
+
+.opt{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  padding:12px 6px;border:1px solid var(--line);border-radius:var(--r);background:var(--white);
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p-deep);
+  transition:.14s;min-height:56px;
+}
+.opt svg{width:16px;height:16px;opacity:.65}
+.opt span{line-height:1.2;text-align:center}
+.opt:active{transform:scale(.96)}
+.opt.on{
+  background:var(--p-dark);border-color:var(--p-dark);color:var(--p-light);
+  box-shadow:inset 0 -2.5px 0 var(--p-accent);
+}
+.opt.on svg{opacity:1}
+.opt.lin{flex-direction:row;justify-content:flex-start;gap:8px;min-height:0;padding:11px 11px;text-transform:none;letter-spacing:.01em;font-size:11.5px;font-weight:600}
+.opt.lin .pt{width:8px;height:8px;border-radius:99px;flex:0 0 8px}
+.opt.lin span{text-align:left}
+.opt.chip-opt{
+  flex:0 0 auto;flex-direction:row;min-height:0;padding:9px 14px;border-radius:99px;
+  text-transform:none;letter-spacing:.01em;font-size:12px;font-weight:600;white-space:nowrap;
+}
+.opt.chip-opt.on{box-shadow:none}
+
+.quick{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.quick button{
+  padding:7px 12px;border:1px dashed color-mix(in srgb,var(--p-dark) 24%,transparent);
+  border-radius:99px;font-size:10.5px;font-weight:600;letter-spacing:.05em;color:var(--p-deep);transition:.14s;
+}
+.quick button:active{background:var(--p-accent);border-color:var(--p-accent);color:var(--p-dark)}
+@media (prefers-color-scheme: dark){
+  .opt{color:#FFFDF8;background:color-mix(in srgb,var(--p-dark) 82%,#000);border-color:rgba(255,255,255,.14)}
+  .opt.on{background:#FFFDF8;color:var(--p-dark);border-color:#FFFDF8}
+  .quick button{color:#FFFDF8;border-color:rgba(255,255,255,.28)}
+}
+
+/* ---- dias cheios ---- */
+.chip.pill{display:flex;align-items:center;gap:3px;padding:2px 4px;font-size:7.5px;font-weight:700;letter-spacing:.04em;min-height:0}
+.chip.pill svg{width:8px;height:8px;flex:0 0 8px}
+.chip.compacto{display:flex;align-items:center;gap:3px;padding:2px 3px 2px 4px;min-height:0}
+.chip.compacto svg{width:7px;height:7px;flex:0 0 7px;opacity:.6}
+.chip.compacto span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.chip.compacto .c-fmt{font-weight:700;font-size:7.5px;letter-spacing:.02em;text-overflow:clip}
+@media(max-width:619px){ .chip.compacto svg{display:none} .chip.compacto{padding:2px 2px 2px 4px} }
+.chip.compacto .c-tt{display:none;font-weight:600;font-size:9px}
+@media(min-width:620px){
+  .chip.compacto .c-fmt{display:none}
+  .chip.compacto .c-tt{display:block}
+}
+
+/* ---- marcador do cliente ----
+   O app é sempre Cultura Growth. A cor do cliente aparece apenas
+   como sinal de onde você está: barra no topo e ponto no nome. */
+.mk-bar{height:3px;background:var(--marca,#C4F23B)}
+.mk-dot{
+  display:inline-block;width:7px;height:7px;border-radius:99px;
+  background:var(--marca,#C4F23B);margin-right:8px;vertical-align:middle;
+  transform:translateY(-1px);
+}
+
 /* ============ NOTIFICAÇÕES ============ */
 .sino{position:relative}
 .sino .bdg{
@@ -561,7 +676,7 @@ label .flbl{display:block;font-size:8.5px;font-weight:700;letter-spacing:.16em;t
   border-radius:99px;background:var(--st-cancelado);color:#fff;font-size:8.5px;
   font-weight:700;font-style:normal;display:grid;place-items:center;line-height:1;
 }
-.centro{background:var(--paper);min-height:100vh;padding-bottom:40px}
+.centro{background:var(--paper);min-height:100vh;padding-bottom:40px;overscroll-behavior:contain}
 .ct-top{
   display:flex;align-items:center;justify-content:space-between;
   background:var(--ink);color:var(--paper);
@@ -930,7 +1045,7 @@ function abrirNotif(id){
   marcarLida(id);
   centroAberto=false;
   if(!DB.projetos[n.projeto]){ render(); toast('Projeto não encontrado'); return; }
-  projAtual=n.projeto; aplicaTema(P().tema); document.body.classList.add('inproj');
+  projAtual=n.projeto; aplicaTema(TEMA_CG); setMarca(P().tema); document.body.classList.add('inproj');
   mesAtual=n.mes||MES_HOJE; tab='cal'; config=false;
   render();
   const alvo=acha(n.refId);
@@ -942,7 +1057,7 @@ function lerHash(){
   const h=location.hash||''; if(!h.includes('post=')) return false;
   const q=Object.fromEntries(h.slice(1).split('&').map(s=>s.split('=')));
   if(!q.p||!DB.projetos[q.p]) return false;
-  projAtual=q.p; aplicaTema(P().tema); document.body.classList.add('inproj');
+  projAtual=q.p; aplicaTema(TEMA_CG); setMarca(P().tema); document.body.classList.add('inproj');
   mesAtual=q.m||MES_HOJE; render();
   if(q.post&&acha(q.post)){ abrir(q.post,'post'); }
   history.replaceState(null,'',location.pathname);
@@ -1077,6 +1192,12 @@ function salvar(){
    TEMA
    ============================================================ */
 const TEMA_CG={dark:'#11110F',light:'#F2EFE7',accent:'#C4F23B',soft:'#C7C4BB',deep:'#3F3E35',disp:'Cormorant Garamond'};
+/* a cor do cliente não pinta mais o app: vira marcador */
+function setMarca(t){
+  const r=document.documentElement.style;
+  r.setProperty('--marca', (t&&t.accent)||'#C4F23B');
+  r.setProperty('--marca-dark', (t&&t.dark)||'#11110F');
+}
 function aplicaTema(t){
   const r=document.documentElement.style;
   r.setProperty('--p-dark',t.dark); r.setProperty('--p-light',t.light);
@@ -1106,7 +1227,7 @@ function abrirProjeto(id){
   projAtual=id; tab='cal'; vista='mes'; filtro='todos'; config=false;
   filtrosOn={status:[],fmt:[]}; painelFiltro=false;
   mesAtual=MES_HOJE;
-  aplicaTema(P().tema); document.body.classList.add('inproj');
+  aplicaTema(TEMA_CG); setMarca(P().tema); document.body.classList.add('inproj');
   window.scrollTo(0,0); render();
 }
 function voltarHome(){
@@ -1222,7 +1343,9 @@ function viewProjeto(){
   <header><div class="wrap">
     <div class="hbar">
       <button class="ic-btn" onclick="voltarHome()" aria-label="Projetos"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <div class="htitle"><h1>${esc(p.nome)}</h1><small>${esc(p.tagline||'Cultura Growth')}</small></div>
+      <div class="htitle">
+        <h1><span class="mk-dot"></span>${esc(p.nome)}</h1>
+        <small>${esc(p.tagline||'Cultura Growth')}</small></div>
       ${sinoHTML()}
       <button class="ic-btn" onclick="config=!config;render()" aria-label="Configurar"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.6 1.6 0 008 19.4a1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H2a2 2 0 110-4h.1A1.6 1.6 0 004.6 8a1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V2a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1H22a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg></button>
     </div>
@@ -1283,6 +1406,15 @@ function painelFiltros(){
    CALENDÁRIO — MÊS
    ============================================================ */
 const FMT_CURTO={'Reel':'REEL','Carrossel':'CARROSSEL','Foto':'FOTO','Story':'STORY','Vídeo':'VÍDEO','Estático':'ESTÁTICO'};
+/* no celular a linha compacta mostra o TIPO (cabe e responde "o que tem hoje");
+   no computador, com espaço, mostra o título */
+const FMT_MINI={'Reel':'REEL','Carrossel':'CARR','Foto':'FOTO','Story':'STORY','Vídeo':'VÍDEO','Estático':'EST'};
+function chipCompacto(p){
+  const late=atrasado(p);
+  return `<button class="chip compacto ${late?'late':''}" style="border-left-color:${corBorda(p)}"
+      data-item="${p.id}" data-tipo="post" onpointerdown="pdown(event,'${p.id}','post')">
+    ${icFmt(p.fmt)}<span class="c-fmt">${esc(FMT_MINI[p.fmt]||p.fmt)}</span><span class="c-tt">${esc(p.concept)}</span></button>`;
+}
 function chipPost(p){
   const st=stOf(p), late=atrasado(p);
   const tk=(p.tasks||[]); const feitas=tk.filter(t=>t.done).length;
@@ -1290,18 +1422,115 @@ function chipPost(p){
       data-item="${p.id}" data-tipo="post" onpointerdown="pdown(event,'${p.id}','post')">
     <span class="fmt">${icFmt(p.fmt)}<span class="fnm">${esc(FMT_CURTO[p.fmt]||p.fmt||'')}</span></span>
     <span class="tt">${esc(p.concept)}</span>
-    <span class="chrow">
-      ${late?`<span class="lt">Não publicado</span>`:''}
-      ${tk.length&&!late?`<span class="tsk">✓ ${feitas}/${tk.length}</span>`:''}
-    </span>
+    ${tk.length?`<span class="tsk">✓ ${feitas}/${tk.length}</span>`:''}
   </button>`;
 }
-function chipEvento(e){
+function chipEvento(e,denso){
+  if(!denso) return chipEventoAntigo(e);
+  return `<button class="chip evento pill" data-item="${e.id}" data-tipo="evento" onpointerdown="pdown(event,'${e.id}','evento')">
+    ${IC.pessoas}<span>${esc((e.hora||'').slice(0,5))}</span></button>`;
+}
+function chipEventoAntigo(e){
   return `<button class="chip evento" data-item="${e.id}" data-tipo="evento" onpointerdown="pdown(event,'${e.id}','evento')">
     <span class="fmt">${IC.pessoas}${esc((e.hora||'').slice(0,5))}</span>
     <span class="tt">${esc(e.titulo)}</span>
   </button>`;
 }
+
+/* ============================================================
+   MÊS NO CELULAR: grade compacta + agenda do dia selecionado
+   Em telas estreitas, cada dia tem ~48px. Títulos não cabem ali.
+   A grade mostra o volume e o status; a agenda embaixo mostra o conteúdo.
+   ============================================================ */
+const estreito=()=>(window.innerWidth||1000)<=560;
+let diaSel=null;
+function selDia(iso){ diaSel=iso; render(); }
+function diaPadrao(){
+  if(diaSel && diaSel.slice(0,7)===mesAtual) return diaSel;
+  if(mesAtual===MES_HOJE) return ISO_HOJE;
+  const ps=posts(); return ps.length?ps[0].date:mesAtual+'-01';
+}
+function viewMesMobile(){
+  const [a,m]=mesAtual.split('-').map(Number);
+  const first=new Date(a,m-1,1).getDay(), dias=new Date(a,m,0).getDate();
+  const ps=posts().filter(passaFiltro), evs=eventos();
+  const sel=diaPadrao();
+  let cells='';
+  for(let i=0;i<first;i++) cells+=`<div class="cell mini pad"></div>`;
+  for(let d=1;d<=dias;d++){
+    const iso=`${a}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dp=ps.filter(p=>p.date===iso), de=evs.filter(e=>e.date===iso);
+    const total=dp.length+de.length;
+    const pontos=[...de.map(()=>`<i class="ev"></i>`),...dp.map(p=>`<i style="background:${corBorda(p)}"></i>`)];
+    const temAtraso=dp.some(atrasado);
+    cells+=`<button class="cell mini ${iso===ISO_HOJE?'today':''} ${iso===sel?'sel':''} ${temAtraso?'tem-late':''}"
+        data-date="${iso}" onclick="selDia('${iso}')" aria-label="${d}, ${total} ${total===1?'item':'itens'}">
+      <span class="dnum">${d}</span>
+      <span class="dots">${pontos.slice(0,4).join('')}</span>
+      ${total>4?`<span class="cnt">+${total-4}</span>`:''}
+    </button>`;
+  }
+  return `<div class="cal">
+    ${barraCal()}${painelFiltros()}
+    <div class="dow">${DOW.map(x=>`<span>${x}</span>`).join('')}</div>
+    <div class="grid mini">${cells}</div>
+    ${agendaDia(sel)}
+  </div>`;
+}
+function agendaDia(iso){
+  const d=new Date(iso+'T12:00:00');
+  const dp=posts().filter(passaFiltro).filter(p=>p.date===iso);
+  const de=eventos().filter(e=>e.date===iso);
+  const total=dp.length+de.length;
+  const bruto=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  const titulo=bruto.charAt(0).toUpperCase()+bruto.slice(1);
+  return `<section class="agenda">
+    <div class="ag-h">
+      <h3>${titulo}</h3>
+      <span>${total?total+(total===1?' item':' itens'):'Livre'}</span>
+    </div>
+    <div class="ag-list">
+      ${de.map(e=>`<button class="wchip evento" data-item="${e.id}" data-tipo="evento" onpointerdown="pdown(event,'${e.id}','evento')">
+          <span class="wc-main"><h4>${esc(e.titulo)}</h4>
+          <span class="wc-meta"><span class="fbadge" style="color:inherit;opacity:.85">${IC.pessoas}${esc(e.hora||'')}${e.dur?' · '+esc(e.dur):''}</span></span></span>
+        </button>`).join('')}
+      ${dp.map(p=>{const st=stOf(p),tk=p.tasks||[],late=atrasado(p);
+        return `<button class="wchip ${late?'late':''}" style="border-left-color:${corBorda(p)}" data-item="${p.id}" data-tipo="post" onpointerdown="pdown(event,'${p.id}','post')">
+          <span class="wc-main">
+            <span class="fbadge">${icFmt(p.fmt)}${esc(p.fmt)}${p.hora?' · '+esc(p.hora):''}</span>
+            <h4 style="margin-top:5px">${esc(p.concept)}</h4>
+            <span class="wc-meta">
+              <span class="badge" style="background:color-mix(in srgb,${STATUS[st].cor} 18%,transparent);color:var(--p-deep)"><i style="background:${STATUS[st].cor}"></i>${STATUS[st].label}</span>
+              ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:var(--st-cancelado)"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
+              ${tk.length?`<span class="fbadge">✓ ${tk.filter(t=>t.done).length}/${tk.length}</span>`:''}
+              ${p.midia?`<span class="fbadge">Vídeo</span>`:''}
+            </span></span>
+        </button>`;}).join('')}
+      ${!total?`<p class="ag-vazio">Nada programado para este dia.</p>`:''}
+    </div>
+    <div class="ag-add">
+      <button onclick="novoPostEm('${iso}')">+ Post neste dia</button>
+      <button onclick="novoEventoEm('${iso}')">+ Reunião</button>
+    </div>
+    <p class="cal-note">Segure um item da agenda e arraste até outro dia da grade.</p>
+  </section>`;
+}
+function novoPostEm(iso){
+  const p={id:uid('p'),date:iso,fmt:'Reel',pilar:PILARES[0],concept:'Novo post',hora:'18:00',
+    material:'',status:'rascunho',mx:{},tasks:[],log:[]};
+  const mk=iso.slice(0,7);
+  P().meses[mk]=P().meses[mk]||{posts:[],eventos:[]};
+  P().meses[mk].eventos=P().meses[mk].eventos||[];
+  P().meses[mk].posts.push(p);
+  salvar(); abrir(p.id,'post'); modoEdicao(true);
+}
+/* re-renderiza ao cruzar a fronteira celular/desktop (ex.: girar o aparelho) */
+let eraEstreito=null;
+window.addEventListener?.('resize',()=>{
+  const e=estreito();
+  if(eraEstreito!==null && e!==eraEstreito && !aberto && !arrastando && projAtual && tab==='cal') render();
+  eraEstreito=e;
+});
 
 function viewCal(){
   if(vista==='semana') return viewSemana();
@@ -1315,9 +1544,14 @@ function viewCal(){
   for(let d=1;d<=dias;d++){
     const iso=`${a}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dp=ps.filter(p=>p.date===iso), de=evs.filter(e=>e.date===iso);
-    const itens=[...de.map(e=>chipEvento(e)),...dp.map(p=>chipPost(p,1))];
-    const mostra=itens.slice(0,2);
-    const resto=itens.length-mostra.length;
+    /* até 2 posts: cards completos. 3 ou mais: todos viram linha única. */
+    const denso = dp.length>=3 || (dp.length+de.length)>=3;
+    const cap = denso ? 4 : 2;
+    const de2 = de.slice(0, cap);
+    const ps2 = dp.slice(0, Math.max(0, cap - de2.length));
+    const itens=[...de2.map(e=>chipEvento(e,denso)),...ps2.map(p=>denso?chipCompacto(p):chipPost(p))];
+    const mostra=itens;
+    const resto=(dp.length+de.length)-itens.length;
     cells+=`<div class="cell ${iso===ISO_HOJE?'today':''} ${!itens.length?'livre':''}" data-date="${iso}"
         ${!itens.length?`onclick="novoEventoEm('${iso}')"`:''}>
       <span class="dnum">${d}</span>
@@ -1513,7 +1747,7 @@ function viewList(cont){
    ============================================================ */
 function abrir(id,tipo){
   aberto=id; abertoTipo=tipo||'post'; editando=false;
-  pintaSheet();
+  pintaSheet(); aoTopo();
   document.getElementById('scrim').classList.add('on');
   document.getElementById('sheet').classList.add('on');
   document.body.style.overflow='hidden';
@@ -1524,6 +1758,10 @@ function fechar(){
   document.getElementById('sheet').classList.remove('on');
   document.body.style.overflow=''; render();
 }
+function aoTopo(){
+  const b=document.getElementById('sheetBody'); if(b) b.scrollTop=0;
+}
+function modoEdicao(v){ editando=v; pintaSheet(); aoTopo(); }
 function pintaSheet(){
   const ev = abertoTipo==='evento';
   const it = ev?achaEv(aberto):acha(aberto);
@@ -1549,7 +1787,7 @@ function pintaSheet(){
     ? `<button class="pri" onclick="${ev?`salvarEvento('${it.id}')`:`salvarPost('${it.id}')`}">Salvar</button>
        <button class="sec" onclick="editando=false;pintaSheet()">Cancelar</button>`
     : `<button class="pri" onclick="fechar()">Fechar</button>
-       <button class="sec" onclick="editando=true;pintaSheet()">Editar</button>`;
+       <button class="sec" onclick="modoEdicao(true)">Editar</button>`;
 }
 
 /* ---------- detalhe do post ---------- */
@@ -1657,25 +1895,74 @@ function setMx(id,k,v){
 
 /* ---------- formulário de post ---------- */
 function formPost(p){
+  const hoje=ISO_HOJE, amanha=addDias(ISO_HOJE,1), semana=addDias(p.date,7);
   return `<div class="sec">
-    <label><span class="flbl">Conceito</span><input class="txt" id="f-concept" value="${esc(p.concept)}"></label>
-    <div class="frow">
-      <label><span class="flbl">Data</span><input class="txt" type="date" id="f-date" value="${p.date}"></label>
-      <label><span class="flbl">Horário</span><input class="txt" id="f-hora" value="${esc(p.hora||'')}" placeholder="18:00"></label>
+    <label class="fld"><span class="flbl">Conceito</span>
+      <input class="txt big" id="f-concept" value="${esc(p.concept)}" placeholder="Do que é esse post?"></label>
+
+    <div class="fld"><span class="flbl">Formato</span>
+      <input type="hidden" id="f-fmt" value="${esc(p.fmt)}">
+      <div class="opts grid4">${Object.keys(FORMATOS).map(f=>`
+        <button type="button" class="opt ${f===p.fmt?'on':''}" onclick="escolher('f-fmt','${f}',this)">
+          ${icFmt(f)}<span>${f}</span></button>`).join('')}</div>
     </div>
-    <div class="frow">
-      <label><span class="flbl">Formato</span><select class="txt" id="f-fmt">${Object.keys(FORMATOS).map(f=>`<option ${f===p.fmt?'selected':''}>${f}</option>`).join('')}</select></label>
-      <label><span class="flbl">Status</span><select class="txt" id="f-status">${ST_ORDEM.map(k=>`<option value="${k}" ${stOf(p)===k?'selected':''}>${STATUS[k].label}</option>`).join('')}</select></label>
+
+    <div class="fld"><span class="flbl">Status</span>
+      <input type="hidden" id="f-status" value="${stOf(p)}">
+      <div class="opts grid2">${ST_ORDEM.map(k=>`
+        <button type="button" class="opt lin ${stOf(p)===k?'on':''}" onclick="escolher('f-status','${k}',this)">
+          <i class="pt" style="background:${STATUS[k].cor}"></i><span>${STATUS[k].label}</span></button>`).join('')}</div>
     </div>
-    <label><span class="flbl">Pilar</span><select class="txt" id="f-pilar">${PILARES.map(f=>`<option ${f===p.pilar?'selected':''}>${f}</option>`).join('')}</select></label>
-    <label><span class="flbl">Hook</span><input class="txt" id="f-hook" value="${esc(p.hook||'')}"></label>
-    <label><span class="flbl">Material necessário</span><textarea id="f-material">${esc(p.material||'')}</textarea></label>
-    <label><span class="flbl">Legenda</span><textarea id="f-caption">${esc(p.caption||'')}</textarea></label>
-    <label><span class="flbl">CTA</span><input class="txt" id="f-cta" value="${esc(p.cta||'')}"></label>
-    <label><span class="flbl">Hashtags</span><textarea id="f-tags">${esc(p.tags||'')}</textarea></label>
-    <label><span class="flbl">Observação fixa</span><input class="txt" id="f-flag" value="${esc(p.flag||'')}" placeholder="Domingo · aprovar até sexta"></label>
+
+    <div class="fld"><span class="flbl">Data</span>
+      <input class="txt" type="date" id="f-date" value="${p.date}">
+      <div class="quick">
+        <button type="button" onclick="setCampo('f-date','${hoje}')">Hoje</button>
+        <button type="button" onclick="setCampo('f-date','${amanha}')">Amanhã</button>
+        <button type="button" onclick="setCampo('f-date','${semana}')">+7 dias</button>
+      </div>
+    </div>
+
+    <div class="fld"><span class="flbl">Horário</span>
+      <input class="txt" id="f-hora" value="${esc(p.hora||'')}" placeholder="18:00">
+      <div class="quick">
+        ${['12:00','18:00','19:00'].map(h=>`<button type="button" onclick="setCampo('f-hora','${h}')">${h}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="fld"><span class="flbl">Pilar</span>
+      <input type="hidden" id="f-pilar" value="${esc(p.pilar||PILARES[0])}">
+      <div class="opts fila">${PILARES.map(f=>`
+        <button type="button" class="opt chip-opt ${f===p.pilar?'on':''}" onclick="escolher('f-pilar','${f}',this)">${f}</button>`).join('')}</div>
+    </div>
+
+    <label class="fld"><span class="flbl">Hook</span><input class="txt" id="f-hook" value="${esc(p.hook||'')}"></label>
+    <label class="fld"><span class="flbl">Material necessário</span><textarea id="f-material">${esc(p.material||'')}</textarea></label>
+    <label class="fld"><span class="flbl">Legenda</span><textarea id="f-caption">${esc(p.caption||'')}</textarea></label>
+    <label class="fld"><span class="flbl">CTA</span><input class="txt" id="f-cta" value="${esc(p.cta||'')}"></label>
+    <label class="fld"><span class="flbl">Hashtags</span><textarea id="f-tags">${esc(p.tags||'')}</textarea></label>
+    <label class="fld"><span class="flbl">Observação fixa</span><input class="txt" id="f-flag" value="${esc(p.flag||'')}" placeholder="Domingo · aprovar até sexta"></label>
   </div>`;
 }
+
+/* ---- controles ---- */
+function escolher(id,val,el){
+  const c=document.getElementById(id); if(c) c.value=val;
+  [...el.parentNode.children].forEach(b=>b.classList.toggle('on',b===el));
+  if(navigator.vibrate) navigator.vibrate(6);
+}
+function setCampo(id,val){
+  const c=document.getElementById(id); if(!c) return;
+  c.value=val; c.classList.add('flash');
+  setTimeout(()=>c.classList.remove('flash'),450);
+  const g=document.querySelector(`[data-quick="${id}"]`);
+  if(g) [...g.children].forEach(b=>b.classList.toggle('on',b.dataset.v===val));
+}
+function addDias(iso,n){
+  const d=new Date(iso+'T12:00:00'); d.setDate(d.getDate()+n);
+  return d.toISOString().slice(0,10);
+}
+
 function salvarPost(id){
   const p=acha(id); if(!p) return;
   const g=x=>{const e=document.getElementById('f-'+x);return e?e.value.trim():'';};
@@ -1700,7 +1987,7 @@ function novoPost(){
   const p={id:uid('p'),date:dia,fmt:'Reel',pilar:PILARES[0],concept:'Novo post',hora:'18:00',
     material:'',status:'rascunho',mx:{},tasks:[],log:[]};
   M().posts.push(p);
-  salvar(); abrir(p.id,'post'); editando=true; pintaSheet();
+  salvar(); abrir(p.id,'post'); modoEdicao(true);
 }
 function apagarPost(id){
   if(!confirm('Excluir este post? Não pode ser desfeito.')) return;
@@ -1790,24 +2077,61 @@ function abrirGoogleCal(id){
   window.open(u,'_blank');
 }
 function formEvento(e){
+  const hoje=ISO_HOJE, amanha=addDias(ISO_HOJE,1);
+  const pes=(e.pessoas||'');
   return `<div class="sec">
-    <label><span class="flbl">Título</span><input class="txt" id="e-titulo" value="${esc(e.titulo)}"></label>
-    <label><span class="flbl">Tipo</span><select class="txt" id="e-tipo">${TIPOS_EVENTO.map(t=>`<option ${t===e.tipo?'selected':''}>${t}</option>`).join('')}</select></label>
-    <div class="frow">
-      <label><span class="flbl">Data</span><input class="txt" type="date" id="e-date" value="${e.date}"></label>
-      <label><span class="flbl">Horário</span><input class="txt" type="time" id="e-hora" value="${esc(e.hora||'10:00')}"></label>
+    <label class="fld"><span class="flbl">Título</span>
+      <input class="txt big" id="e-titulo" value="${esc(e.titulo)}" placeholder="Sobre o que é a reunião?"></label>
+
+    <div class="fld"><span class="flbl">Tipo</span>
+      <input type="hidden" id="e-tipo" value="${esc(e.tipo||TIPOS_EVENTO[0])}">
+      <div class="opts fila">${TIPOS_EVENTO.map(t=>`
+        <button type="button" class="opt chip-opt ${t===e.tipo?'on':''}" onclick="escolher('e-tipo','${t}',this)">${t}</button>`).join('')}</div>
     </div>
-    <div class="frow">
-      <label><span class="flbl">Duração</span><input class="txt" id="e-dur" value="${esc(e.dur||'')}" placeholder="30 min"></label>
-      <label><span class="flbl">Participantes</span><input class="txt" id="e-pessoas" value="${esc(e.pessoas||'')}" placeholder="Bruno, Dacal"></label>
+
+    <div class="fld"><span class="flbl">Data</span>
+      <input class="txt" type="date" id="e-date" value="${e.date}">
+      <div class="quick">
+        <button type="button" onclick="setCampo('e-date','${hoje}')">Hoje</button>
+        <button type="button" onclick="setCampo('e-date','${amanha}')">Amanhã</button>
+      </div>
     </div>
-    <label><span class="flbl">Observações</span><textarea id="e-obs">${esc(e.obs||'')}</textarea></label>
+
+    <div class="fld"><span class="flbl">Horário</span>
+      <input class="txt" type="time" id="e-hora" value="${esc(e.hora||'10:00')}">
+      <div class="quick">
+        ${['09:00','10:00','14:00','16:00'].map(h=>`<button type="button" onclick="setCampo('e-hora','${h}')">${h}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="fld"><span class="flbl">Duração</span>
+      <input type="hidden" id="e-dur" value="${esc(e.dur||'30 min')}">
+      <div class="opts grid4">${['30 min','45 min','1h','2h'].map(d=>`
+        <button type="button" class="opt ${d===(e.dur||'30 min')?'on':''}" onclick="escolher('e-dur','${d}',this)"><span>${d}</span></button>`).join('')}</div>
+    </div>
+
+    <div class="fld"><span class="flbl">Participantes</span>
+      <input class="txt" id="e-pessoas" value="${esc(pes)}" placeholder="Bruno, Dacal">
+      <div class="quick">
+        ${EQUIPE.map(n=>`<button type="button" onclick="juntarPessoa('${n}')">+ ${n}</button>`).join('')}
+        <button type="button" onclick="setCampo('e-pessoas','${EQUIPE.join(', ')}')">Time todo</button>
+      </div>
+    </div>
+
+    <label class="fld"><span class="flbl">Observações</span><textarea id="e-obs">${esc(e.obs||'')}</textarea></label>
   </div>`;
 }
+function juntarPessoa(n){
+  const c=document.getElementById('e-pessoas'); if(!c) return;
+  const lista=c.value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(lista.includes(n)) lista.splice(lista.indexOf(n),1); else lista.push(n);
+  setCampo('e-pessoas',lista.join(', '));
+}
+
 function novoEventoEm(iso){
   const e={id:uid('e'),titulo:'Nova reunião',tipo:TIPOS_EVENTO[0],date:iso,hora:'10:00',dur:'30 min',pessoas:'',obs:'',log:[]};
   M().eventos.push(e);
-  salvar(); abrir(e.id,'evento'); editando=true; pintaSheet();
+  salvar(); abrir(e.id,'evento'); modoEdicao(true);
 }
 function salvarEvento(id){
   const e=achaEv(id); if(!e) return;
@@ -1896,10 +2220,10 @@ function viewConfig(){
   const p=P(),t=p.tema,s=statsProj(projAtual);
   return `<div class="dash">
     <div class="panel"><h3>Identidade do projeto</h3>
-      <p class="lead">O app assume estas cores ao entrar no projeto.</p>
+      <p class="lead">O app mantém a identidade da Cultura Growth. As cores do cliente identificam o projeto na Home e no topo da tela.</p>
       <label><span class="flbl">Nome</span><input class="txt" id="c-nome" value="${esc(p.nome)}"></label>
       <label><span class="flbl">Tagline</span><input class="txt" id="c-tag" value="${esc(p.tagline||'')}"></label>
-      <h4 class="lbl" style="margin-top:16px">Paleta</h4>
+      <h4 class="lbl" style="margin-top:16px">Cores do cliente <span class="ct">marcador</span></h4>
       <div class="swatches">${[['dark','Escura'],['light','Fundo'],['accent','Destaque'],['soft','Suave'],['deep','Média']]
         .map(([k,l])=>`<span class="sw"><input type="color" id="c-${k}" value="${t[k]}"><span>${l}</span></span>`).join('')}</div>
       <div class="btns"><button class="act solid" onclick="salvarConfig()">Aplicar</button></div>
@@ -1923,7 +2247,7 @@ function salvarConfig(){
   const p=P(),g=x=>document.getElementById('c-'+x).value;
   p.nome=g('nome').trim()||'Sem nome'; p.tagline=g('tag').trim();
   p.tema={dark:g('dark'),light:g('light'),accent:g('accent'),soft:g('soft'),deep:g('deep'),disp:p.tema.disp};
-  aplicaTema(p.tema); salvar(); render(); toast('Identidade aplicada');
+  setMarca(p.tema); salvar(); render(); toast('Cor do cliente atualizada');
 }
 function apagarProjeto(){
   if(!confirm('Excluir este projeto e todo o conteúdo dele?')) return;
@@ -2141,6 +2465,17 @@ function importCSV(){
    INICIALIZAÇÃO
    ============================================================ */
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&aberto) fechar(); });
+
+/* o app é uma ferramenta de toque: sem zoom de pinça nem de toque duplo,
+   que é o que fazia a tela inteira passear ao arrastar */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>
+  document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+let ultToque=0;
+document.addEventListener('touchend',e=>{
+  const t=Date.now();
+  if(t-ultToque<320) e.preventDefault();
+  ultToque=t;
+},{passive:false});
 
 /* registra o service worker quando o arquivo existir no servidor */
 if('serviceWorker' in navigator && location.protocol==='https:'){
