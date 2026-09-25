@@ -37,7 +37,7 @@
   --st-aprovado:#C4F23B;
   --st-publicado:#6E8F3E;
   --st-ajustar:#E8833A;
-  --st-cancelado:#D6453C;
+  --st-cancelado:#C43B32;
 
   --nav:74px;
   --r:3px;
@@ -196,7 +196,7 @@ nav.tabs{
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);display:flex;
 }
-nav.tabs button{flex:1;padding:12px 4px 13px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--p-deep);opacity:.45;transition:.16s}
+nav.tabs button{flex:1;padding:12px 4px 13px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--p-deep);opacity:.62;transition:.16s}
 nav.tabs button[aria-selected="true"]{opacity:1;color:var(--p-dark)}
 nav.tabs svg{width:19px;height:19px}
 nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:uppercase}
@@ -355,9 +355,6 @@ nav.tabs span{font-size:9px;font-weight:600;letter-spacing:.11em;text-transform:
   .card .badge{color:#FFFDF8 !important}
   .card .badge i{box-shadow:0 0 0 1px rgba(255,255,255,.35)}
   .card.late{background:color-mix(in srgb, var(--st-cancelado) 20%, #15140F)}
-  .wk{color:#FFFDF8;opacity:.55}
-  .fchip{color:#FFFDF8;border-color:rgba(255,255,255,.2)}
-  .fchip[aria-pressed="true"]{background:#FFFDF8;color:var(--p-dark);border-color:#FFFDF8}
 }
 
 /* ============================================================
@@ -410,7 +407,7 @@ h4.lbl span.ct{
 .empty{font-size:13px;color:var(--p-deep);opacity:.5}
 .flag{
   display:inline-block;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--st-ajustar);border:1px dashed color-mix(in srgb,var(--st-ajustar) 45%,transparent);
+  color:#A5551B;border:1px dashed color-mix(in srgb,var(--st-ajustar) 55%,transparent);
   padding:5px 10px;border-radius:2px;margin-top:10px;
 }
 
@@ -457,7 +454,7 @@ h4.lbl span.ct{
 .act.solid{background:var(--p-dark);color:var(--p-light)}
 .act.ghost{border-color:var(--line);color:var(--p-deep);font-weight:600;background:transparent}
 .act.ghost:hover{background:var(--p-deep);color:var(--p-light);border-color:var(--p-deep)}
-.act.danger{border-color:var(--st-cancelado);color:var(--st-cancelado);background:transparent}
+.act.danger{border-color:var(--st-cancelado);color:#A82F28;background:transparent}
 .act.danger:hover{background:var(--st-cancelado);color:var(--white)}
 .act:disabled{opacity:.4;cursor:default}
 .link-btn{font-size:11px;color:var(--p-deep);opacity:.65;text-decoration:underline}
@@ -481,7 +478,7 @@ textarea{resize:vertical;min-height:72px}
 .drop{border:1px dashed color-mix(in srgb,var(--p-dark) 24%,transparent);border-radius:var(--r);padding:16px 14px;text-align:center;background:var(--white)}
 .drop p{font-size:12.5px;color:var(--p-deep);line-height:1.55}
 .mbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:9px;font-size:11px;color:var(--p-deep)}
-.mbar a{color:var(--p-accent);text-decoration:none;font-weight:600}
+.mbar a{color:var(--p-dark);text-decoration:underline;text-underline-offset:3px;font-weight:600}
 .pending{font-size:12.5px;color:var(--p-deep);opacity:.85;margin-top:11px;display:flex;align-items:center;gap:8px}
 .dot{width:6px;height:6px;border-radius:99px;background:var(--p-accent);animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
@@ -596,6 +593,15 @@ textarea{resize:vertical;min-height:72px}
 
 
 
+
+/* o hook é a frase de expressão da marca: itálico em Ink, com a régua lime
+   como marcação. O lime é acento, nunca cor de texto sobre fundo claro. */
+.hook-txt{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+  font-size:21px;line-height:1.3;color:var(--p-dark);
+  border-left:2px solid var(--p-accent);padding-left:12px;
+}
+
 /* ---- campos e seletores ---- */
 .fld{display:block;margin-top:18px}
 .fld:first-child{margin-top:4px}
@@ -627,6 +633,11 @@ textarea{resize:vertical;min-height:72px}
 .opt.lin{flex-direction:row;justify-content:flex-start;gap:8px;min-height:0;padding:11px 11px;text-transform:none;letter-spacing:.01em;font-size:11.5px;font-weight:600}
 .opt.lin .pt{width:8px;height:8px;border-radius:99px;flex:0 0 8px}
 .opt.lin span{text-align:left}
+.opt.bloco{
+  min-height:0;padding:12px 10px;text-transform:none;letter-spacing:.005em;
+  font-size:12px;font-weight:600;white-space:normal;text-align:center;line-height:1.25;
+}
+.opt.bloco.on{box-shadow:inset 0 -2.5px 0 var(--p-accent)}
 .opt.chip-opt{
   flex:0 0 auto;flex-direction:row;min-height:0;padding:9px 14px;border-radius:99px;
   text-transform:none;letter-spacing:.01em;font-size:12px;font-weight:600;white-space:nowrap;
@@ -642,8 +653,48 @@ textarea{resize:vertical;min-height:72px}
 @media (prefers-color-scheme: dark){
   .opt{color:#FFFDF8;background:color-mix(in srgb,var(--p-dark) 82%,#000);border-color:rgba(255,255,255,.14)}
   .opt.on{background:#FFFDF8;color:var(--p-dark);border-color:#FFFDF8}
-  .quick button{color:#FFFDF8;border-color:rgba(255,255,255,.28)}
 }
+
+
+/* ---- Radar ---- */
+.rd-hero{
+  background:var(--p-dark);color:var(--p-light);border-radius:var(--r);
+  padding:22px 18px 20px;margin-bottom:12px;
+}
+.rd-hero .rd-n{display:block;font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.rd-hero.alerta .rd-n{color:var(--p-accent)}
+.rd-hero .rd-t{display:block;font-size:14px;font-weight:600;margin-top:8px}
+.rd-hero .rd-s{display:block;font-size:11px;opacity:.6;margin-top:7px;line-height:1.5}
+.rd-pes{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.rd-pes div{flex:1;min-width:120px;background:var(--p-light);border-radius:2px;padding:10px 12px}
+.rd-pes b{display:block;font-size:12.5px;font-weight:700}
+.rd-pes span{display:block;font-size:10.5px;color:var(--p-deep);opacity:.75;margin-top:3px}
+.rd-nota{font-size:11px;color:var(--p-deep);opacity:.7;line-height:1.55;margin-top:11px}
+.rd-list{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.rd-item{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--p-light);border:1px solid var(--line);border-left:3px solid var(--st-aguardando);
+  border-radius:var(--r);padding:12px 13px;
+}
+.rd-item.alto{border-left-color:var(--st-ajustar)}
+.rd-item.atrasado{border-left-color:var(--st-cancelado)}
+.rd-tag{
+  flex:0 0 auto;font-size:8px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  padding:4px 7px;border-radius:99px;background:var(--p-soft);color:var(--p-deep);margin-top:2px;
+}
+.rd-item.alto .rd-tag{background:color-mix(in srgb,var(--st-ajustar) 22%,transparent);color:#7E3F12}
+.rd-item.atrasado .rd-tag{background:color-mix(in srgb,var(--st-cancelado) 20%,transparent);color:#8E2620}
+.rd-main{flex:1;min-width:0}
+.rd-main b{display:block;font-size:13.5px;font-weight:600;line-height:1.3}
+.rd-meta{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--p-deep);opacity:.65;margin-top:5px}
+.rd-why{display:block;font-size:12.5px;line-height:1.5;color:var(--p-deep);margin-top:6px}
+.rd-lift{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.rd-l{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.rd-l:last-child{border-bottom:0}
+.rd-lk{font-size:13px;font-weight:500}
+.rd-lk small{display:block;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--p-deep);opacity:.55;margin-top:2px}
+.rd-lv{font-weight:700;font-size:15px}
+.rd-lv.up{color:#4C6B2B} .rd-lv.down{color:#A5551B}
 
 /* ---- dias cheios ---- */
 .chip.pill{display:flex;align-items:center;gap:3px;padding:2px 4px;font-size:7.5px;font-weight:700;letter-spacing:.04em;min-height:0}
@@ -673,7 +724,7 @@ textarea{resize:vertical;min-height:72px}
 .sino{position:relative}
 .sino .bdg{
   position:absolute;top:-2px;right:-2px;min-width:15px;height:15px;padding:0 3px;
-  border-radius:99px;background:var(--st-cancelado);color:#fff;font-size:8.5px;
+  border-radius:99px;background:#B3352D;color:#fff;font-size:8.5px;
   font-weight:700;font-style:normal;display:grid;place-items:center;line-height:1;
 }
 .centro{background:var(--paper);min-height:100vh;padding-bottom:40px;overscroll-behavior:contain}
@@ -705,7 +756,7 @@ textarea{resize:vertical;min-height:72px}
 .ct-main{flex:1;min-width:0}
 .ct-main b{display:block;font-weight:700;font-size:13px;letter-spacing:-.005em}
 .ct-main span{display:block;font-size:13px;line-height:1.45;margin-top:3px;color:#3F3E35}
-.ct-main small{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8A877C;margin-top:6px}
+.ct-main small{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#5E5C54;margin-top:6px}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media(min-width:620px){
@@ -1136,6 +1187,16 @@ const achaEv=id=>M().eventos.find(e=>e.id===id);
 const num=n=>Number(n||0).toLocaleString('pt-BR');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const stOf=p=>STATUS[p.status]?p.status:'rascunho';
+/* escolhe texto escuro ou claro conforme o brilho do fundo */
+function textoSobre(cor){
+  let c=cor;
+  try{ c=getComputedStyle(document.documentElement).getPropertyValue(cor.replace(/var\((.+)\)/,'$1').trim())||cor; }
+  catch(e){ c=cor; }
+  const h=(c.trim().match(/#([0-9a-f]{6})/i)||[])[1];
+  if(!h) return '#FFFDF8';
+  const n=parseInt(h,16), r=n>>16&255, g=n>>8&255, b=n&255;
+  return (0.2126*r+0.7152*g+0.0722*b)/255 > .55 ? '#11110F' : '#FFFDF8';
+}
 /* condição VISUAL derivada — não altera o status operacional do post.
    'cancelado' fica de fora: já é vermelho por definição e não é uma pendência. */
 const atrasado=p=>p.date<ISO_HOJE && stOf(p)!=='publicado' && stOf(p)!=='cancelado';
@@ -1358,14 +1419,15 @@ function viewProjeto(){
   <div class="track">${ps.length&&!config?ST_ORDEM.filter(k=>cont[k]).map(k=>`<span style="width:${cont[k]/ps.length*100}%;background:${STATUS[k].cor}"></span>`).join(''):''}</div>
   </header>
 
-  <main class="wrap">${config?viewConfig():(tab==='cal'?viewCal():tab==='list'?viewList(cont):viewMx())}</main>
+  <main class="wrap">${config?viewConfig():(tab==='cal'?viewCal():tab==='list'?viewList(cont):tab==='radar'?viewRadar():viewMx())}</main>
 
   ${config?'':`
-  <button class="fab" onclick="${tab==='mx'?'':'novoPost()'}" aria-label="Novo post" style="${tab==='mx'?'display:none':''}">
+  <button class="fab" onclick="${(tab==='mx'||tab==='radar')?'':'novoPost()'}" aria-label="Novo post" style="${(tab==='mx'||tab==='radar')?'display:none':''}">
     <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
   <nav class="tabs" role="tablist">
     <button role="tab" aria-selected="${tab==='cal'}" onclick="setTab('cal')">${IC.evento}<span>Calendário</span></button>
     <button role="tab" aria-selected="${tab==='list'}" onclick="setTab('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span>Posts</span></button>
+    <button role="tab" aria-selected="${tab==='radar'}" onclick="setTab('radar')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-5"/></svg><span>Radar</span></button>
     <button role="tab" aria-selected="${tab==='mx'}" onclick="setTab('mx')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Métricas</span></button>
   </nav>`}`;
 }
@@ -1501,7 +1563,7 @@ function agendaDia(iso){
             <h4 style="margin-top:5px">${esc(p.concept)}</h4>
             <span class="wc-meta">
               <span class="badge" style="background:color-mix(in srgb,${STATUS[st].cor} 18%,transparent);color:var(--p-deep)"><i style="background:${STATUS[st].cor}"></i>${STATUS[st].label}</span>
-              ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:var(--st-cancelado)"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
+              ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:#A82F28"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
               ${tk.length?`<span class="fbadge">✓ ${tk.filter(t=>t.done).length}/${tk.length}</span>`:''}
               ${p.midia?`<span class="fbadge">Vídeo</span>`:''}
             </span></span>
@@ -1611,7 +1673,7 @@ function viewSemana(){
               <span class="wc-meta">
                 <span class="fbadge">${icFmt(p.fmt)}${esc(p.fmt)}</span>
                 <span class="badge" style="background:color-mix(in srgb,${STATUS[st].cor} 18%,transparent);color:var(--p-deep)"><i style="background:${STATUS[st].cor}"></i>${STATUS[st].label}</span>
-                ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:var(--st-cancelado)"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
+                ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:#A82F28"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
                 ${tk.length?`<span class="fbadge">✓ ${tk.filter(t=>t.done).length}/${tk.length}</span>`:''}
               </span></span>
           </button>`;}).join('')}
@@ -1733,7 +1795,7 @@ function viewList(cont){
         <span class="row2">
           <span class="fbadge">${icFmt(p.fmt)}${esc(p.fmt)}</span>
           <span class="badge" style="background:color-mix(in srgb,${STATUS[st].cor} 18%,transparent);color:var(--p-deep)"><i style="background:${STATUS[st].cor}"></i>${STATUS[st].label}</span>
-          ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:var(--st-cancelado)"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
+          ${late?`<span class="badge" style="background:color-mix(in srgb,var(--st-cancelado) 15%,transparent);color:#A82F28"><i style="background:var(--st-cancelado)"></i>Não publicado</span>`:''}
           ${tk.length?`<span class="fbadge">✓ ${tk.filter(t=>t.done).length}/${tk.length}</span>`:''}
           ${p.midia?`<span class="fbadge">Vídeo</span>`:''}
           ${temMx?`<span class="fbadge">Métricas</span>`:''}
@@ -1776,7 +1838,7 @@ function pintaSheet(){
         <span class="fbadge" style="color:inherit;opacity:.8">${ev?IC.pessoas:icFmt(it.fmt)}${esc(ev?(it.tipo||'Reunião'):it.fmt)}</span>
         <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.6">
           ${d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'})}${it.hora?' · '+esc(it.hora):''}</span>
-        ${st?`<span class="badge" style="background:${STATUS[st].cor};color:${st==='aprovado'?'#11110F':'#FFFDF8'}">${STATUS[st].label}</span>`:''}
+        ${st?`<span class="badge" style="background:${STATUS[st].cor};color:${textoSobre(STATUS[st].cor)}">${STATUS[st].label}</span>`:''}
         ${(!ev&&atrasado(it))?`<span class="badge" style="background:var(--st-cancelado);color:#FFFDF8">Não publicado</span>`:''}
       </div>
     </div>`;
@@ -1829,7 +1891,7 @@ function detalhePost(p){
       :`<p class="empty" style="margin-top:10px">Sem histórico ainda.</p>`}
   </div>
 
-  ${p.hook?`<div class="sec"><h4 class="lbl">Hook</h4><p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--p-accent)">${esc(p.hook)}</p></div>`:''}
+  ${p.hook?`<div class="sec"><h4 class="lbl">Hook</h4><p class="hook-txt">${esc(p.hook)}</p></div>`:''}
   <div class="sec"><h4 class="lbl">Material necessário</h4><p>${esc(p.material||'—')}</p></div>
   <div class="sec"><h4 class="lbl">Legenda</h4>
     ${p.caption?`<div class="box">${esc(p.caption)}</div>`:`<p class="empty">Ainda não produzida.</p>`}
@@ -1873,7 +1935,7 @@ function setStatus(id,st){
   const p=acha(id); if(p.status===st) return;
   p.status=st; p.quando=agora(); p.porQuem=quemSou()||'Equipe';
   p.log=p.log||[];
-  p.log.push({quem:p.porQuem,quando:p.quando,texto:'Status: '+STATUS[st].label.toLowerCase()+'.'});
+  p.log.push({quem:p.porQuem,quando:p.quando,ts:Date.now(),texto:'Status: '+STATUS[st].label.toLowerCase()+'.'});
   salvar(); pintaSheet(); toast(STATUS[st].label);
 }
 function comentar(id,tipo){
@@ -1881,7 +1943,7 @@ function comentar(id,tipo){
   const ta=document.getElementById('ta-'+id); const t=ta?ta.value.trim():'';
   if(!t){ ta?.focus(); return; }
   it.log=it.log||[];
-  it.log.push({quem:quemSou()||'Equipe',quando:agora(),texto:t});
+  it.log.push({quem:quemSou()||'Equipe',quando:agora(),ts:Date.now(),texto:t});
   it.quando=agora();
   if(tipo!=='evento') notificar('comentario',{refId:id,post:it,
     texto:`${quemSou()||'Alguém'} comentou em "${it.concept}".`});
@@ -1932,8 +1994,8 @@ function formPost(p){
 
     <div class="fld"><span class="flbl">Pilar</span>
       <input type="hidden" id="f-pilar" value="${esc(p.pilar||PILARES[0])}">
-      <div class="opts fila">${PILARES.map(f=>`
-        <button type="button" class="opt chip-opt ${f===p.pilar?'on':''}" onclick="escolher('f-pilar','${f}',this)">${f}</button>`).join('')}</div>
+      <div class="opts grid2">${PILARES.map(f=>`
+        <button type="button" class="opt bloco ${f===p.pilar?'on':''}" onclick="escolher('f-pilar','${f}',this)">${f}</button>`).join('')}</div>
     </div>
 
     <label class="fld"><span class="flbl">Hook</span><input class="txt" id="f-hook" value="${esc(p.hook||'')}"></label>
@@ -2085,8 +2147,8 @@ function formEvento(e){
 
     <div class="fld"><span class="flbl">Tipo</span>
       <input type="hidden" id="e-tipo" value="${esc(e.tipo||TIPOS_EVENTO[0])}">
-      <div class="opts fila">${TIPOS_EVENTO.map(t=>`
-        <button type="button" class="opt chip-opt ${t===e.tipo?'on':''}" onclick="escolher('e-tipo','${t}',this)">${t}</button>`).join('')}</div>
+      <div class="opts grid2">${TIPOS_EVENTO.map(t=>`
+        <button type="button" class="opt bloco ${t===e.tipo?'on':''}" onclick="escolher('e-tipo','${t}',this)">${t}</button>`).join('')}</div>
     </div>
 
     <div class="fld"><span class="flbl">Data</span>
@@ -2363,6 +2425,289 @@ function totais(mk){
 function mesAnterior(){ const [a,m]=mesAtual.split('-').map(Number); const d=new Date(a,m-2,1); return chave(d.getFullYear(),d.getMonth()); }
 function delta(x,y){ if(!y) return ''; const p=Math.round((x-y)/y*100);
   if(!isFinite(p)||!p) return ''; return `<em class="${p>0?'up':'down'}">${p>0?'▲':'▼'} ${Math.abs(p)}% vs mês anterior</em>`; }
+
+
+/* ============================================================
+   RADAR — o sistema aprende o ritmo da própria equipe
+   Três camadas, todas calculadas a partir de dados que o app já
+   guarda: histórico de status (quem, quando), métricas e cadência.
+   Nada aqui depende de serviço externo.
+   ============================================================ */
+const MS_DIA=86400000;
+const MES_ABREV={jan:0,fev:1,mar:2,abr:3,mai:4,jun:5,jul:6,ago:7,set:8,out:9,nov:10,dez:11};
+
+/* os registros antigos guardam só o texto da data; os novos guardam ts */
+function quandoEm(l){
+  if(l && l.ts) return new Date(l.ts);
+  const m=String(l&&l.quando||'').match(/(\d{1,2})\s+(\w{3})\.?\s+(\d{2}):(\d{2})/);
+  if(!m) return null;
+  const mes=MES_ABREV[m[2].toLowerCase()];
+  if(mes===undefined) return null;
+  const d=new Date(HOJE.getFullYear(),mes,+m[1],+m[3],+m[4]);
+  if(d-HOJE>120*MS_DIA) d.setFullYear(d.getFullYear()-1);
+  return d;
+}
+
+/* ---- camada 1: ritmo da equipe ---------------------------- */
+function ritmoEquipe(){
+  const esperas=[], porPessoa={}, porDiaSemana=[0,0,0,0,0,0,0];
+  let aprovacoes=0, fds=0;
+  Object.values(DB.projetos).forEach(pr=>Object.values(pr.meses||{}).forEach(m=>{
+    (m.posts||[]).forEach(p=>{
+      const log=(p.log||[]).slice();
+      let pedido=null;
+      log.forEach(l=>{
+        const t=quandoEm(l); if(!t) return;
+        const txt=(l.texto||'').toLowerCase();
+        if(/aguardando aprovação/.test(txt)) pedido=t;
+        if(/status: aprovado/.test(txt)){
+          aprovacoes++;
+          const dia=t.getDay(); porDiaSemana[dia]++;
+          if(dia===0||dia===6) fds++;
+          if(pedido && t>pedido){
+            const h=(t-pedido)/3600000;
+            if(h<=24*21){ esperas.push(h); (porPessoa[l.quem]=porPessoa[l.quem]||[]).push(h); }
+          }
+          pedido=null;
+        }
+      });
+    });
+  }));
+  const mediana=a=>{ if(!a.length) return null; const s=a.slice().sort((x,y)=>x-y); const i=Math.floor(s.length/2);
+    return s.length%2?s[i]:(s[i-1]+s[i])/2; };
+  return {
+    n:esperas.length, horas:mediana(esperas), aprovacoes, fds,
+    porPessoa:Object.fromEntries(Object.entries(porPessoa).map(([k,v])=>[k,{n:v.length,horas:mediana(v)}])),
+    porDiaSemana
+  };
+}
+
+/* folga de segurança: quanto antes um post precisa estar aprovado */
+function folgaDias(r){
+  if(!r || r.n<3) return 2;                       // sem histórico: 2 dias
+  return Math.max(1, Math.ceil(r.horas/24)+1);    // ritmo real + 1 dia de margem
+}
+/* a equipe não aprova no fim de semana: antecipa para sexta */
+function prazoAprovacao(iso, folga){
+  const d=new Date(iso+'T12:00:00');
+  d.setDate(d.getDate()-folga);
+  while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()-1);
+  return d.toISOString().slice(0,10);
+}
+
+/* ---- camada 2: risco por post ------------------------------ */
+function riscoDe(p, ctx){
+  const st=stOf(p);
+  if(st==='publicado'||st==='cancelado') return null;
+  const dias=Math.round((new Date(p.date+'T12:00:00')-new Date(ISO_HOJE+'T12:00:00'))/MS_DIA);
+  if(dias<0) return {nivel:'atrasado',pontos:100,dias,motivos:['Passou da data sem publicar.'],prazo:null};
+  const prazo=prazoAprovacao(p.date,ctx.folga);
+  const diasAteP=Math.round((new Date(prazo+'T12:00:00')-new Date(ISO_HOJE+'T12:00:00'))/MS_DIA);
+  const motivos=[]; let pts=0;
+  const aprovado = st==='aprovado';
+  if(!aprovado){
+    if(diasAteP<0){ pts+=45; motivos.push(`Passou do prazo de aprovação (${fmtCurta(prazo)}).`); }
+    else if(diasAteP===0){ pts+=35; motivos.push('O prazo de aprovação é hoje.'); }
+    else if(diasAteP<=1){ pts+=22; motivos.push(`Precisa ser aprovado até ${fmtCurta(prazo)}.`); }
+    if(st==='ajustar'){ pts+=18; motivos.push('Tem ajuste pedido e ainda não resolvido.'); }
+    if(st==='rascunho'&&dias<=5){ pts+=18; motivos.push('Ainda é rascunho e falta pouco tempo.'); }
+    if(st==='aguardando_cli'){ pts+=10; motivos.push('Depende de resposta do cliente.'); }
+  }
+  if(!p.midia && dias<=5){ pts+=20; motivos.push('Sem vídeo ou imagem anexada.'); }
+  if(!p.caption && !(p.ai&&p.ai.legenda) && dias<=3){ pts+=12; motivos.push('Legenda não produzida.'); }
+  const tk=(p.tasks||[]).filter(t=>!t.done).length;
+  if(tk && dias<=3){ pts+=8; motivos.push(`${tk} tarefa${tk>1?'s':''} em aberto.`); }
+  const dow=new Date(p.date+'T12:00:00').getDay();
+  if((dow===0||dow===6)&&!aprovado){ pts+=10; motivos.push('Publica no fim de semana, quando ninguém aprova.'); }
+  const nivel = pts>=45?'alto' : pts>=20?'medio' : 'baixo';
+  return {nivel,pontos:pts,dias,motivos,prazo};
+}
+
+/* ---- camada 3: o que funciona ------------------------------ */
+function desempenhoPor(campo){
+  const ps=[];
+  Object.values(DB.projetos[projAtual].meses||{}).forEach(m=>(m.posts||[]).forEach(p=>{
+    if(p.mx && Number(p.mx.alcance)>0) ps.push(p);
+  }));
+  if(ps.length<4) return {suficiente:false,n:ps.length,itens:[]};
+  const chave=p=>campo==='dia' ? DIAS[new Date(p.date+'T12:00:00').getDay()]
+             : campo==='hora' ? (p.hora||'—').slice(0,5)
+             : p[campo]||'—';
+  const g={};
+  ps.forEach(p=>{ const k=chave(p); g[k]=g[k]||{al:0,sv:0,n:0};
+    g[k].al+=Number(p.mx.alcance||0); g[k].sv+=Number(p.mx.salvos||0); g[k].n++; });
+  const mediaGeral=ps.reduce((s,p)=>s+Number(p.mx.alcance||0),0)/ps.length;
+  const salvosGeral=ps.reduce((s,p)=>s+Number(p.mx.salvos||0),0)/ps.length;
+  const itens=Object.entries(g).filter(([,v])=>v.n>=2).map(([k,v])=>({
+    k, n:v.n, media:Math.round(v.al/v.n), salvos:Math.round(v.sv/v.n),
+    lift: mediaGeral? (v.al/v.n)/mediaGeral : 1,
+    liftSalvos: salvosGeral? (v.sv/v.n)/salvosGeral : 1
+  })).sort((a,b)=>b.liftSalvos-a.liftSalvos);
+  return {suficiente:itens.length>=2, n:ps.length, itens, mediaGeral:Math.round(mediaGeral)};
+}
+
+/* ---- plano do próximo mês ---------------------------------- */
+function planoProximoMes(){
+  const [a,m]=mesAtual.split('-').map(Number);
+  const prox=new Date(a,m,1);
+  const mk=chave(prox.getFullYear(),prox.getMonth());
+  const dias=new Date(prox.getFullYear(),prox.getMonth()+1,0).getDate();
+
+  const dFmt=desempenhoPor('fmt'), dPil=desempenhoPor('pilar'), dDia=desempenhoPor('dia');
+  const baseadoEmDados = dFmt.suficiente || dDia.suficiente;
+
+  /* cadência: os dias que mais rendem, ou a cadência atual de vocês */
+  let diasBons = dDia.suficiente
+    ? dDia.itens.slice(0,3).map(i=>DIAS.indexOf(i.k)).filter(i=>i>=0)
+    : [2,4,0];                                   // terça, quinta, domingo
+  if(!diasBons.length) diasBons=[2,4,0];
+
+  const fmts = dFmt.suficiente ? dFmt.itens.map(i=>i.k) : ['Reel','Carrossel'];
+  const pilares = dPil.suficiente ? dPil.itens.map(i=>i.k) : ['Destination','Experience','Conversion','The House'];
+
+  const existentes=(DB.projetos[projAtual].meses?.[mk]?.posts)||[];
+  const ocupados=new Set(existentes.map(p=>p.date));
+  const plano=[]; let i=0;
+  for(let d=1;d<=dias;d++){
+    const data=`${prox.getFullYear()}-${String(prox.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow=new Date(data+'T12:00:00').getDay();
+    if(!diasBons.includes(dow)) continue;
+    if(ocupados.has(data)) continue;
+    const fmt=fmts[i%fmts.length], pil=pilares[i%pilares.length];
+    plano.push({date:data, fmt, pilar:pil,
+      hora: dow===0?'12:00':'18:00',
+      concept:`${pil} · ${fmt}`,
+      prazo: prazoAprovacao(data, folgaDias(ritmoEquipe()))});
+    i++;
+  }
+  return {mk, plano, baseadoEmDados, dDia, dFmt, dPil, ocupados:existentes.length};
+}
+let planoAtual=null;
+function gerarPlano(){ planoAtual=planoProximoMes(); render(); }
+function aplicarPlano(){
+  if(!planoAtual) return;
+  const {mk,plano}=planoAtual;
+  P().meses[mk]=P().meses[mk]||{posts:[],eventos:[]};
+  P().meses[mk].eventos=P().meses[mk].eventos||[];
+  const ja=new Set(P().meses[mk].posts.map(p=>p.date+'|'+p.fmt));
+  let n=0;
+  plano.forEach(s=>{
+    if(ja.has(s.date+'|'+s.fmt)) return;
+    P().meses[mk].posts.push({id:uid('p'),date:s.date,fmt:s.fmt,pilar:s.pilar,concept:s.concept,
+      hora:s.hora,status:'rascunho',material:'',mx:{},tasks:[],
+      log:[{quem:quemSou()||'Equipe',quando:agora(),ts:Date.now(),texto:'Criado pelo Radar.'}]});
+    n++;
+  });
+  planoAtual=null; salvar(); render();
+  toast(`${n} slot${n===1?'':'s'} criado${n===1?'':'s'}`);
+}
+
+/* ---- tela ---------------------------------------------- */
+function viewRadar(){
+  const r=ritmoEquipe(), folga=folgaDias(r);
+  const ctx={folga};
+  const todos=[];
+  Object.entries(P().meses||{}).forEach(([mk,m])=>(m.posts||[]).forEach(p=>{
+    const rc=riscoDe(p,ctx); if(rc && (rc.nivel==='alto'||rc.nivel==='atrasado'||rc.nivel==='medio')) todos.push({p,rc,mk});
+  }));
+  const ordem={atrasado:0,alto:1,medio:2};
+  todos.sort((a,b)=>(ordem[a.rc.nivel]-ordem[b.rc.nivel])||(a.p.date.localeCompare(b.p.date)));
+  const altos=todos.filter(x=>x.rc.nivel==='alto'||x.rc.nivel==='atrasado').length;
+
+  const dFmt=desempenhoPor('fmt'), dPil=desempenhoPor('pilar'), dDia=desempenhoPor('dia');
+
+  let h=`<div class="dash">
+
+  <div class="rd-hero ${altos?'alerta':''}">
+    <span class="rd-n">${altos}</span>
+    <span class="rd-t">${altos?`post${altos>1?'s':''} em risco real`:'nenhum post em risco'}</span>
+    <span class="rd-s">${todos.length-altos} em atenção · prazo de aprovação calculado em ${folga} dia${folga>1?'s':''} antes</span>
+  </div>`;
+
+  /* ritmo da equipe */
+  h+=`<div class="panel"><h3>Ritmo da equipe</h3>`;
+  if(r.n>=3){
+    const hrs=Math.round(r.horas);
+    h+=`<p class="lead">Medido a partir de ${r.n} aprovações registradas neste app.</p>
+      <div class="split" style="grid-template-columns:1fr 1fr">
+        <div><b>${hrs<24?hrs+'h':Math.round(hrs/24*10)/10+'d'}</b><span>Da solicitação à aprovação</span></div>
+        <div><b>${r.aprovacoes?Math.round(100-(r.fds/r.aprovacoes*100)):100}%</b><span>Das aprovações em dia útil</span></div>
+      </div>
+      ${Object.keys(r.porPessoa).length?`<div class="rd-pes">${Object.entries(r.porPessoa).map(([k,v])=>
+        `<div><b>${esc(k)}</b><span>${v.horas<24?Math.round(v.horas)+'h':Math.round(v.horas/24*10)/10+'d'} · ${v.n} aprovaç${v.n>1?'ões':'ão'}</span></div>`).join('')}</div>`:''}
+      <p class="rd-nota">É daqui que sai o prazo de cada post. Quanto mais o time usa o app, mais preciso fica.</p>`;
+  }else{
+    h+=`<p class="lead">Ainda sem histórico suficiente. Enquanto isso o prazo usa 2 dias de folga, e ele se ajusta sozinho conforme vocês aprovam pelo app.</p>`;
+  }
+  h+=`</div>`;
+
+  /* riscos */
+  h+=`<div class="panel"><h3>Precisa de atenção</h3>`;
+  if(!todos.length){
+    h+=`<p class="lead">Nenhum post em risco. Tudo dentro do prazo.</p>`;
+  }else{
+    h+=`<div class="rd-list">${todos.slice(0,10).map(({p,rc,mk})=>`
+      <button class="rd-item ${rc.nivel}" onclick="irAoPost('${mk}','${p.id}')">
+        <span class="rd-tag">${rc.nivel==='atrasado'?'Atrasado':rc.nivel==='alto'?'Risco alto':'Atenção'}</span>
+        <span class="rd-main">
+          <b>${esc(p.concept)}</b>
+          <span class="rd-meta">${esc(p.fmt)} · ${fmtCurta(p.date)}${rc.dias>=0?` · em ${rc.dias} dia${rc.dias===1?'':'s'}`:''}</span>
+          <span class="rd-why">${rc.motivos.slice(0,2).map(m=>esc(m)).join(' ')}</span>
+        </span>
+      </button>`).join('')}</div>`;
+  }
+  h+=`</div>`;
+
+  /* o que funciona */
+  h+=`<div class="panel"><h3>O que funciona</h3>`;
+  if(!dFmt.suficiente && !dPil.suficiente && !dDia.suficiente){
+    h+=`<p class="lead">Preencha as métricas de pelo menos 4 posts para o Radar começar a comparar formatos, pilares e dias.</p>`;
+  }else{
+    h+=`<p class="lead">Comparação por salvos, que é o sinal mais próximo de intenção de reserva. Base: ${dFmt.n} posts com dados.</p>`;
+    [['Formato',dFmt],['Pilar',dPil],['Dia da semana',dDia]].forEach(([nome,d])=>{
+      if(!d.suficiente) return;
+      h+=`<h4 class="lbl" style="margin-top:16px">${nome}</h4><div class="rd-lift">${
+        d.itens.slice(0,4).map(i=>{
+          const pc=Math.round((i.liftSalvos-1)*100);
+          return `<div class="rd-l"><span class="rd-lk">${esc(i.k)}<small>${i.n} posts</small></span>
+            <span class="rd-lv ${pc>=0?'up':'down'}">${pc>=0?'+':''}${pc}%</span></div>`;}).join('')}</div>`;
+    });
+  }
+  h+=`</div>`;
+
+  /* plano do próximo mês */
+  const [a,m]=mesAtual.split('-').map(Number);
+  const nomeProx=MESES[m%12];
+  h+=`<div class="panel"><h3>Montar ${nomeProx}</h3>
+    <p class="lead">O Radar propõe os slots do próximo mês nos dias e formatos que mais rendem, já com o prazo de aprovação de cada um.</p>`;
+  if(planoAtual){
+    const pl=planoAtual;
+    h+=`<div class="imp-sum">
+      <span><i style="background:var(--st-aprovado)"></i>${pl.plano.length} slots propostos</span>
+      ${pl.ocupados?`<span><i style="background:var(--st-aguardando)"></i>${pl.ocupados} já existem</span>`:''}
+    </div>
+    <p class="rd-nota">${pl.baseadoEmDados
+      ? 'Baseado no desempenho real dos posts de vocês.'
+      : 'Ainda sem métricas suficientes, então usei a cadência atual: terça, quinta e domingo.'}</p>
+    <table class="imp-tbl"><thead><tr><th>Data</th><th>Tipo</th><th>Pilar</th><th>Aprovar até</th></tr></thead>
+    <tbody>${pl.plano.slice(0,14).map(s=>`<tr class="novo">
+      <td>${fmtCurta(s.date)}</td><td>${esc(s.fmt)}</td><td>${esc(s.pilar)}</td><td>${fmtCurta(s.prazo)}</td></tr>`).join('')}</tbody></table>
+    ${pl.plano.length>14?`<p class="empty" style="margin-top:8px">Mostrando 14 de ${pl.plano.length}.</p>`:''}
+    <div class="btns">
+      <button class="act solid" onclick="aplicarPlano()">Criar ${pl.plano.length} slots</button>
+      <button class="act ghost" onclick="planoAtual=null;render()">Descartar</button>
+    </div>`;
+  }else{
+    h+=`<div class="btns"><button class="act ghost" onclick="gerarPlano()">Gerar proposta</button></div>`;
+  }
+  h+=`</div></div>`;
+  return h;
+}
+function irAoPost(mk,id){
+  mesAtual=mk; tab='cal'; render();
+  const p=acha(id);
+  if(p) abrir(id,'post'); else toast('Post não encontrado');
+}
 
 function viewMx(){
   const t=totais(mesAtual), ta=totais(mesAnterior());
